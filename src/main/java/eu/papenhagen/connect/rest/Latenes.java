@@ -26,22 +26,28 @@
  */
 package eu.papenhagen.connect.rest;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-
 public class Latenes {
-    
-    private final IntegerProperty id = new SimpleIntegerProperty();
 
+    private final IntegerProperty id = new SimpleIntegerProperty();
     private final StringProperty date = new SimpleStringProperty();
     private final StringProperty name = new SimpleStringProperty();
     private final IntegerProperty delaytime = new SimpleIntegerProperty();
-
     private final StringProperty ursache = new SimpleStringProperty();
-    private final IntegerProperty entschuldigt = new SimpleIntegerProperty();
+    private final BooleanProperty  entschuldigt = new SimpleBooleanProperty();
+    
+//    private int id;
+//    private String date;
+//    private String name;
+//    private int delaytime;
+//    private String ursache;
+//    private boolean entschuldigt;
 
     public final int getId() {
         return id.get();
@@ -103,17 +109,19 @@ public class Latenes {
         return ursache;
     }
 
-    public final int getEntschuldigt() {
+    public final boolean isEntschuldigt() {
         return entschuldigt.get();
     }
 
-    public final void setEntschuldigt(int value) {
+    public final void setEntschuldigt(boolean value) {
         entschuldigt.set(value);
     }
 
-    public IntegerProperty entschuldigtProperty() {
+    public BooleanProperty entschuldigtProperty() {
         return entschuldigt;
     }
 
+   
+    
 
 }

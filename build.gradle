@@ -29,7 +29,7 @@ dependencies {
 jfxmobile {
     downConfig {
         version = '3.2.4'
-        plugins 'browser', 'display', 'lifecycle', 'statusbar'
+        plugins 'browser', 'display', 'lifecycle', 'statusbar', 'storage'
     }
     android {
         manifest = 'src/android/AndroidManifest.xml'

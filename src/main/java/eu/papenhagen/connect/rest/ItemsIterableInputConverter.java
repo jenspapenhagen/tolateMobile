@@ -62,7 +62,7 @@ public class ItemsIterableInputConverter<E> extends InputStreamIterableInputConv
 
         try (JsonReader reader = Json.createReader(getInputStream())) {
             JsonObject jsonObject = reader.readObject();
-            jsonArray = jsonObject.getJsonArray("items");
+            jsonArray = jsonObject.getJsonArray("tolate");
         }
 
         return this;

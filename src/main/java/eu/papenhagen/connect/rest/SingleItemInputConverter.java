@@ -46,7 +46,7 @@ public class SingleItemInputConverter<T> extends InputStreamInputConverter<T> {
     public T read() {
         try (JsonReader reader = Json.createReader(getInputStream())) {
             JsonObject jsonObject = reader.readObject();
-            JsonArray jsonArray = jsonObject.getJsonArray("items");
+            JsonArray jsonArray = jsonObject.getJsonArray("tolate");
             if (jsonArray.size() > 0) {
                 return jsonConverter.readFromJson(jsonArray.getJsonObject(0));
             }

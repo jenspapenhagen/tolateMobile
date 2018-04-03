@@ -33,6 +33,8 @@ import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.gluonhq.connect.GluonObservableList;
 import com.gluonhq.connect.converter.InputStreamIterableInputConverter;
 import com.gluonhq.connect.provider.DataProvider;
+import com.gluonhq.connect.provider.InputStreamListDataReader;
+import com.gluonhq.connect.provider.ListDataReader;
 import com.gluonhq.connect.provider.RestClient;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -45,28 +47,28 @@ public class RestListView extends View {
         // create a RestClient to the specific URL
         RestClient restClient = RestClient.create()
                 .method("GET")
-                .host("http://localhost")
-                .path("/tolate/api.php/tolate")
-                .queryParam("transform", "1")
-                .queryParam("csrf", "N688704524");
-        System.out.println("the full URL" + restClient.toString());
+                .host("http://phptestfield.byethost10.com")
+                .path("/api.php/tolate")
+                .queryParam("transform", "1");
 
         // create a custom Converter that is able to parse the response into a list of objects
         InputStreamIterableInputConverter<Latenes> converter = new ItemsIterableInputConverter<>(Latenes.class);
 
+        ListDataReader<Latenes> listDataReader = new InputStreamListDataReader<>(restClient.createRestDataSource(), converter);
+
         // retrieve a list from the DataProvider
-        GluonObservableList<Latenes> lateness = DataProvider.retrieveList(restClient.createListDataReader(converter));
+        GluonObservableList<Latenes> lateness = DataProvider.retrieveList(listDataReader);
 
         // create a JavaFX ListView and populate it with the retrieved list
         ListView<Latenes> lvLatenes = new ListView<>(lateness);
         lvLatenes.setCellFactory(lv -> {
             return new ListCell<Latenes>() {
                 @Override
-                protected void updateItem(Latenes item, boolean empty) {
-                    super.updateItem(item, empty);
-                    
+                protected void updateItem(Latenes tolate, boolean empty) {
+                    super.updateItem(tolate, empty);
+
                     if (!empty) {
-                        setText(item.getName() + " - " + item.getUrsache());
+                        setText(tolate.getName() + " - " + tolate.getUrsache());
                     } else {
                         setText(null);
                     }
