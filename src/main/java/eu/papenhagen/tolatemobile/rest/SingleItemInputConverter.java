@@ -24,43 +24,34 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.papenhagen.connect.rest;
+package eu.papenhagen.tolatemobile.rest;
 
-import com.gluonhq.charm.glisten.application.MobileApplication;
-import com.gluonhq.charm.glisten.control.NavigationDrawer;
-import com.gluonhq.charm.glisten.layout.layer.SidePopupView;
-import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
-import com.gluonhq.charm.glisten.visual.Swatch;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.stage.Stage;
+import com.gluonhq.connect.converter.InputStreamInputConverter;
+import com.gluonhq.connect.converter.JsonConverter;
 
-public class Main extends MobileApplication {
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 
-    public static final String RESTLIST_VIEW = HOME_VIEW;
-    public static final String MENU_LAYER = "SideMenu";
+public class SingleItemInputConverter<T> extends InputStreamInputConverter<T> {
 
-    @Override
-    public void init() {
-        addViewFactory(RESTLIST_VIEW, () -> new RestListView(RESTLIST_VIEW));
+    private final JsonConverter<T> jsonConverter;
 
-        NavigationDrawer navigationDrawer = new NavigationDrawer();
-        NavigationDrawer.Item listItem = new NavigationDrawer.Item("List Viewer", MaterialDesignIcon.VIEW_LIST.graphic());
-        navigationDrawer.getItems().addAll(listItem);
-        navigationDrawer.selectedItemProperty().addListener((obs, oldItem, newItem) -> {
-            hideLayer(MENU_LAYER);
-            if (newItem.equals(listItem)) {
-                switchView(RESTLIST_VIEW);
-            }
-        });
-
-        addLayerFactory(MENU_LAYER, () -> new SidePopupView(navigationDrawer));
+    public SingleItemInputConverter(Class<T> targetClass) {
+        this.jsonConverter = new JsonConverter<>(targetClass);
     }
 
     @Override
-    public void postInit(Scene scene) {
-        Swatch.BLUE.assignTo(scene);
+    public T read() {
+        try (JsonReader reader = Json.createReader(getInputStream())) {
+            JsonObject jsonObject = reader.readObject();
+            JsonArray jsonArray = jsonObject.getJsonArray("tolate");
+            if (jsonArray.size() > 0) {
+                return jsonConverter.readFromJson(jsonArray.getJsonObject(0));
+            }
+        }
 
-        ((Stage) scene.getWindow()).getIcons().add(new Image(Main.class.getResourceAsStream("/icon.png")));
+        return null;
     }
 }

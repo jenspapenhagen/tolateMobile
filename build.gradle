@@ -7,10 +7,6 @@ buildscript {
     }
 }
 
-plugins {
-    id "com.github.hierynomus.license" version "0.13.1"
-}
-
 apply plugin: 'org.javafxports.jfxmobile'
 
 repositories {
@@ -46,9 +42,4 @@ jfxmobile {
     }
 }
 
-license {
-    skipExistingHeaders
-    mapping {
-        fxml = 'XML_STYLE'
-    }
-}
+
