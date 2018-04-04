@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<View maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="335.0"  stylesheets="@delay.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" prefHeight="600.0" fx:controller="eu.papenhagen.tolatemobile.view.DelayPresenter">
+<View stylesheets="@delay.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="eu.papenhagen.tolatemobile.views.DelayPresenter">
    <top>
       <AppBar titleText="List" BorderPane.alignment="CENTER" />
    </top>

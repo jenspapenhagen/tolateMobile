@@ -1,4 +1,4 @@
-package eu.papenhagen.tolatemobile.view;
+package eu.papenhagen.tolatemobile.views;
 
 import com.gluonhq.charm.glisten.control.DropdownButton;
 import com.gluonhq.charm.glisten.control.TextField;

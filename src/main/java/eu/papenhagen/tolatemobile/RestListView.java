@@ -31,11 +31,6 @@ import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.collections.FXCollections;
@@ -77,7 +72,7 @@ public class RestListView extends View {
 
     @Override
     protected void updateAppBar(AppBar appBar) {
-        appBar.setNavIcon(MaterialDesignIcon.MENU.button(e -> MobileApplication.getInstance().showLayer(Application.MENU_LAYER)));
+        appBar.setNavIcon(MaterialDesignIcon.MENU.button(e -> MobileApplication.getInstance().showLayer(Application.APP_SIDE_MENU)));
         appBar.setTitleText("List Viewer");
     }
 

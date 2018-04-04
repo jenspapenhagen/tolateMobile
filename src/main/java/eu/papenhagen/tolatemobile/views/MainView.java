@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu.papenhagen.tolatemobile.view;
+package eu.papenhagen.tolatemobile.views;
 
 import com.gluonhq.charm.glisten.mvc.View;
 import java.io.IOException;
