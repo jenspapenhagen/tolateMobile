@@ -58,6 +58,7 @@ public class RestListView extends View {
 
         // retrieve a list from the DataProvider
         GluonObservableList<Latenes> lateness = DataProvider.retrieveList(listDataReader);
+        System.out.println("size of GluonObservableList<Latenes> " + lateness.size());
 
         // create a JavaFX ListView and populate it with the retrieved list
         ListView<Latenes> lvLatenes = new ListView<>(lateness);

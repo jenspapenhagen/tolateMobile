@@ -37,6 +37,7 @@ import javax.json.JsonReader;
 public class SingleItemInputConverter<T> extends InputStreamInputConverter<T> {
 
     private final JsonConverter<T> jsonConverter;
+    private final String item = "tolate";
 
     public SingleItemInputConverter(Class<T> targetClass) {
         this.jsonConverter = new JsonConverter<>(targetClass);
@@ -46,7 +47,7 @@ public class SingleItemInputConverter<T> extends InputStreamInputConverter<T> {
     public T read() {
         try (JsonReader reader = Json.createReader(getInputStream())) {
             JsonObject jsonObject = reader.readObject();
-            JsonArray jsonArray = jsonObject.getJsonArray("tolate");
+            JsonArray jsonArray = jsonObject.getJsonArray(item);
             if (jsonArray.size() > 0) {
                 return jsonConverter.readFromJson(jsonArray.getJsonObject(0));
             }

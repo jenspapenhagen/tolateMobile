@@ -37,6 +37,7 @@ import java.util.Iterator;
 
 public class ItemsIterableInputConverter<E> extends InputStreamIterableInputConverter<E> implements Iterator<E> {
 
+    private final String item = "tolate";
     private JsonArray jsonArray;
     private int index;
     private final JsonConverter<E> converter;
@@ -62,7 +63,7 @@ public class ItemsIterableInputConverter<E> extends InputStreamIterableInputConv
 
         try (JsonReader reader = Json.createReader(getInputStream())) {
             JsonObject jsonObject = reader.readObject();
-            jsonArray = jsonObject.getJsonArray("tolate");
+            jsonArray = jsonObject.getJsonArray(item);
         }
 
         return this;
