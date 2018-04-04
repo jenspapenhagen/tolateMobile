@@ -36,6 +36,10 @@ import com.gluonhq.connect.provider.DataProvider;
 import com.gluonhq.connect.provider.InputStreamListDataReader;
 import com.gluonhq.connect.provider.ListDataReader;
 import com.gluonhq.connect.provider.RestClient;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 
@@ -46,13 +50,22 @@ public class RestListView extends View {
 
         // create a RestClient to the specific URL
         RestClient restClient = RestClient.create()
-                .method("GET")
                 .host("http://phptestfield.byethost10.com")
                 .path("/rest/tolate")
-                .queryParam("transform", "1");
+                .queryParam("transform", "1")
+                .method("GET");
 
+       
+        System.out.println("restClient" + restClient);
         // create a custom Converter that is able to parse the response into a list of objects
         InputStreamIterableInputConverter<Latenes> converter = new ItemsIterableInputConverter<>(Latenes.class);
+        
+        if(converter.getInputStream() != null){
+            System.out.println("InputStreamIterableInputConverter<Latenes> converter" + getStringFromInputStream(converter.getInputStream()) );
+        }else{
+            System.out.println("InputStreamIterableInputConverter<Latenes> converter is null");
+        }
+        
 
         ListDataReader<Latenes> listDataReader = new InputStreamListDataReader<>(restClient.createRestDataSource(), converter);
 
@@ -84,6 +97,32 @@ public class RestListView extends View {
     protected void updateAppBar(AppBar appBar) {
         appBar.setNavIcon(MaterialDesignIcon.MENU.button(e -> MobileApplication.getInstance().showLayer(Main.MENU_LAYER)));
         appBar.setTitleText("List Viewer");
+    }
+
+    // convert InputStream to String
+    private static String getStringFromInputStream(InputStream is) {
+
+        BufferedReader br = null;
+        StringBuilder sb = new StringBuilder();
+
+        String line;
+        try {
+            br = new BufferedReader(new InputStreamReader(is));
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return sb.toString();
     }
 
 }

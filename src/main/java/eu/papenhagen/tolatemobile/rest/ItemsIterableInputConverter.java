@@ -38,7 +38,7 @@ import java.util.Iterator;
 public class ItemsIterableInputConverter<E> extends InputStreamIterableInputConverter<E> implements Iterator<E> {
 
     private final String item = "tolate";
-    private JsonArray jsonArray;
+    private JsonArray jsonArray = null;
     private int index;
     private final JsonConverter<E> converter;
 
@@ -48,6 +48,9 @@ public class ItemsIterableInputConverter<E> extends InputStreamIterableInputConv
 
     @Override
     public boolean hasNext() {
+        if (jsonArray == null) {
+            return false;
+        }
         return index < jsonArray.size();
     }
 
