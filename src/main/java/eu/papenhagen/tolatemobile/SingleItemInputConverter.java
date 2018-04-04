@@ -24,51 +24,35 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.papenhagen.tolatemobile.rest;
+package eu.papenhagen.tolatemobile;
 
-import com.gluonhq.connect.converter.InputStreamIterableInputConverter;
+import com.gluonhq.connect.converter.InputStreamInputConverter;
 import com.gluonhq.connect.converter.JsonConverter;
 
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import java.util.Iterator;
 
-public class ItemsIterableInputConverter<E> extends InputStreamIterableInputConverter<E> implements Iterator<E> {
+public class SingleItemInputConverter<T> extends InputStreamInputConverter<T> {
 
+    private final JsonConverter<T> jsonConverter;
     private final String item = "tolate";
-    private JsonArray jsonArray = null;
-    private int index;
-    private final JsonConverter<E> converter;
 
-    public ItemsIterableInputConverter(Class<E> targetClass) {
-        converter = new JsonConverter<>(targetClass);
+    public SingleItemInputConverter(Class<T> targetClass) {
+        this.jsonConverter = new JsonConverter<>(targetClass);
     }
 
     @Override
-    public boolean hasNext() {
-        if (jsonArray == null) {
-            return false;
-        }
-        return index < jsonArray.size();
-    }
-
-    @Override
-    public E next() {
-        JsonObject jsonObject = jsonArray.getJsonObject(index++);
-        return converter.readFromJson(jsonObject);
-    }
-
-    @Override
-    public Iterator<E> iterator() {
-        index = 0;
-
+    public T read() {
         try (JsonReader reader = Json.createReader(getInputStream())) {
             JsonObject jsonObject = reader.readObject();
-            jsonArray = jsonObject.getJsonArray(item);
+            JsonArray jsonArray = jsonObject.getJsonArray(item);
+            if (jsonArray.size() > 0) {
+                return jsonConverter.readFromJson(jsonArray.getJsonObject(0));
+            }
         }
 
-        return this;
+        return null;
     }
 }

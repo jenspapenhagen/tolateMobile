@@ -1,4 +1,4 @@
-package eu.papenhagen.tolatemobile.controller;
+package eu.papenhagen.tolatemobile.view;
 
 import com.gluonhq.charm.glisten.control.DropdownButton;
 import com.gluonhq.charm.glisten.control.TextField;
@@ -13,7 +13,7 @@ import javafx.scene.control.CheckBox;
  *
  * @author jens papenhagen
  */
-public class AddDelayController implements Initializable {
+public class DelayPresenter implements Initializable {
 
     @FXML
     private TextField nameTextfield;

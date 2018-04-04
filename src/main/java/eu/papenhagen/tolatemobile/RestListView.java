@@ -24,24 +24,29 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.papenhagen.tolatemobile.rest;
+package eu.papenhagen.tolatemobile;
 
 import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
+
 import com.gluonhq.connect.GluonObservableList;
 import com.gluonhq.connect.converter.InputStreamIterableInputConverter;
 import com.gluonhq.connect.provider.DataProvider;
 import com.gluonhq.connect.provider.InputStreamListDataReader;
 import com.gluonhq.connect.provider.ListDataReader;
 import com.gluonhq.connect.provider.RestClient;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+
+import eu.papenhagen.tolatemobile.rest.Latenes;
 
 public class RestListView extends View {
 
@@ -95,7 +100,7 @@ public class RestListView extends View {
 
     @Override
     protected void updateAppBar(AppBar appBar) {
-        appBar.setNavIcon(MaterialDesignIcon.MENU.button(e -> MobileApplication.getInstance().showLayer(Main.MENU_LAYER)));
+        appBar.setNavIcon(MaterialDesignIcon.MENU.button(e -> MobileApplication.getInstance().showLayer(Application.MENU_LAYER)));
         appBar.setTitleText("List Viewer");
     }
 

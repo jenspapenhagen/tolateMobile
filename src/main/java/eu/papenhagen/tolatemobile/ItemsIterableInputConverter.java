@@ -24,35 +24,51 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package eu.papenhagen.tolatemobile.rest;
+package eu.papenhagen.tolatemobile;
 
-import com.gluonhq.connect.converter.InputStreamInputConverter;
+import com.gluonhq.connect.converter.InputStreamIterableInputConverter;
 import com.gluonhq.connect.converter.JsonConverter;
 
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
+import java.util.Iterator;
 
-public class SingleItemInputConverter<T> extends InputStreamInputConverter<T> {
+public class ItemsIterableInputConverter<E> extends InputStreamIterableInputConverter<E> implements Iterator<E> {
 
-    private final JsonConverter<T> jsonConverter;
     private final String item = "tolate";
+    private JsonArray jsonArray = null;
+    private int index;
+    private final JsonConverter<E> converter;
 
-    public SingleItemInputConverter(Class<T> targetClass) {
-        this.jsonConverter = new JsonConverter<>(targetClass);
+    public ItemsIterableInputConverter(Class<E> targetClass) {
+        converter = new JsonConverter<>(targetClass);
     }
 
     @Override
-    public T read() {
+    public boolean hasNext() {
+        if (jsonArray == null) {
+            return false;
+        }
+        return index < jsonArray.size();
+    }
+
+    @Override
+    public E next() {
+        JsonObject jsonObject = jsonArray.getJsonObject(index++);
+        return converter.readFromJson(jsonObject);
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        index = 0;
+
         try (JsonReader reader = Json.createReader(getInputStream())) {
             JsonObject jsonObject = reader.readObject();
-            JsonArray jsonArray = jsonObject.getJsonArray(item);
-            if (jsonArray.size() > 0) {
-                return jsonConverter.readFromJson(jsonArray.getJsonObject(0));
-            }
+            jsonArray = jsonObject.getJsonArray(item);
         }
 
-        return null;
+        return this;
     }
 }
