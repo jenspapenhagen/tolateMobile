@@ -31,13 +31,6 @@ import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 
-import com.gluonhq.connect.GluonObservableList;
-import com.gluonhq.connect.converter.InputStreamIterableInputConverter;
-import com.gluonhq.connect.provider.DataProvider;
-import com.gluonhq.connect.provider.InputStreamListDataReader;
-import com.gluonhq.connect.provider.ListDataReader;
-import com.gluonhq.connect.provider.RestClient;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,45 +38,29 @@ import java.io.InputStreamReader;
 
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
-import eu.papenhagen.tolatemobile.rest.Latenes;
+import eu.papenhagen.tolatemobile.enitiy.Delay;
+import eu.papenhagen.tolatemobile.rest.RestProvider;
 
 public class RestListView extends View {
 
     public RestListView(String name) {
         super(name);
 
-        // create a RestClient to the specific URL
-        RestClient restClient = RestClient.create()
-                .host("http://phptestfield.byethost10.com")
-                .path("/rest/tolate")
-                .queryParam("transform", "1")
-                .method("GET");
-
-       
-        System.out.println("restClient" + restClient);
-        // create a custom Converter that is able to parse the response into a list of objects
-        InputStreamIterableInputConverter<Latenes> converter = new ItemsIterableInputConverter<>(Latenes.class);
-        
-        if(converter.getInputStream() != null){
-            System.out.println("InputStreamIterableInputConverter<Latenes> converter" + getStringFromInputStream(converter.getInputStream()) );
-        }else{
-            System.out.println("InputStreamIterableInputConverter<Latenes> converter is null");
-        }
-        
-
-        ListDataReader<Latenes> listDataReader = new InputStreamListDataReader<>(restClient.createRestDataSource(), converter);
+        RestProvider rest = new RestProvider();
 
         // retrieve a list from the DataProvider
-        GluonObservableList<Latenes> lateness = DataProvider.retrieveList(listDataReader);
-        System.out.println("size of GluonObservableList<Latenes> " + lateness.size());
+        ObservableList<Delay> lateness = FXCollections.observableList(rest.getList());
+        System.out.println("size of ObservableList<Latenes> " + lateness.size());
 
         // create a JavaFX ListView and populate it with the retrieved list
-        ListView<Latenes> lvLatenes = new ListView<>(lateness);
+        ListView<Delay> lvLatenes = new ListView<>(lateness);
         lvLatenes.setCellFactory(lv -> {
-            return new ListCell<Latenes>() {
+            return new ListCell<Delay>() {
                 @Override
-                protected void updateItem(Latenes tolate, boolean empty) {
+                protected void updateItem(Delay tolate, boolean empty) {
                     super.updateItem(tolate, empty);
 
                     if (!empty) {
@@ -102,32 +79,6 @@ public class RestListView extends View {
     protected void updateAppBar(AppBar appBar) {
         appBar.setNavIcon(MaterialDesignIcon.MENU.button(e -> MobileApplication.getInstance().showLayer(Application.MENU_LAYER)));
         appBar.setTitleText("List Viewer");
-    }
-
-    // convert InputStream to String
-    private static String getStringFromInputStream(InputStream is) {
-
-        BufferedReader br = null;
-        StringBuilder sb = new StringBuilder();
-
-        String line;
-        try {
-            br = new BufferedReader(new InputStreamReader(is));
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return sb.toString();
     }
 
 }
