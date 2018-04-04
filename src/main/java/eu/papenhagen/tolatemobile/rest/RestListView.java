@@ -48,7 +48,7 @@ public class RestListView extends View {
         RestClient restClient = RestClient.create()
                 .method("GET")
                 .host("http://phptestfield.byethost10.com")
-                .path("/api.php/tolate")
+                .path("/rest/tolate")
                 .queryParam("transform", "1");
 
         // create a custom Converter that is able to parse the response into a list of objects
