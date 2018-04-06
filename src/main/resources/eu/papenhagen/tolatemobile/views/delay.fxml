@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<View stylesheets="@delay.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="eu.papenhagen.tolatemobile.views.DelayPresenter">
+<View fx:id="delay" minWidth="200.0" stylesheets="@delay.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.papenhagen.tolatemobile.views.DelayPresenter">
    <top>
-      <AppBar titleText="List" BorderPane.alignment="CENTER" />
+      <AppBar fx:id="appBarDelay" titleText="Verspätung" BorderPane.alignment="CENTER" />
    </top>
    <center>
       <VBox spacing="5.0" BorderPane.alignment="CENTER">
@@ -39,7 +39,7 @@
             </DropdownButton>
             <Label text="Entschuldigung" />
             <CheckBox fx:id="yellowLetter" mnemonicParsing="false" text="liegt vor" />
-            <Button alignment="TOP_LEFT" contentDisplay="RIGHT" minWidth="150.0" mnemonicParsing="false" text="Add" textAlignment="RIGHT" VBox.vgrow="ALWAYS" />
+            <Button fx:id="addButton" alignment="TOP_LEFT" contentDisplay="RIGHT" minWidth="150.0" mnemonicParsing="false" onAction="#add" text="Add" textAlignment="RIGHT" VBox.vgrow="ALWAYS" />
          </children>
          <padding>
             <Insets left="3.0" />

@@ -38,6 +38,7 @@ public class Delay {
     @Setter
     @Getter
     private boolean entschuldigt;
+   
 
     public String toJSON() {
         String output = "{\"id\": " + id

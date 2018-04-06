@@ -32,11 +32,14 @@ public class PrimaryPresenter {
 
     @FXML
     private ListView<Delay> DelayListView;
-    
+
+    @FXML
+    private AppBar appBarList;
+
     private RestProvider rest;
 
     public void initialize() {
-        
+
         rest = new RestProvider();
 
         ObservableList<Delay> lateness = FXCollections.observableList(rest.getList());
@@ -57,18 +60,18 @@ public class PrimaryPresenter {
             };
         });
         DelayListView.setItems(lateness);
-        
+
         primary.setShowTransitionFactory(BounceInLeftTransition::new);
         primary.showingProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue) {
                 AppBar appBar = MobileApplication.getInstance().getAppBar();
                 appBar.setTitleText("Hauptmenü");
-                appBar.setNavIcon(Application.ANNOUNCEMENT_BUTTON);
+                //appBar.setNavIcon(Application.ANNOUNCEMENT_BUTTON);
                 appBar.getActionItems().add(Application.HOME_BUTTON);
-                
+
             }
         });
-        
+
     }
 
 }
