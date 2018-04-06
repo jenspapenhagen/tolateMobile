@@ -19,7 +19,7 @@ repositories {
     mainClassName = 'eu.papenhagen.tolatemobile.Application'
     
     dependencies {
-        compile 'org.gradle:gradle-tooling-api:4.6'
+        //compile 'org.gradle:gradle-tooling-api:4.6'
         compile 'com.gluonhq:charm:4.4.1'
         compile 'com.squareup.okhttp3:okhttp:3.10.0'
         compile 'com.google.code.gson:gson:2.8.2'
