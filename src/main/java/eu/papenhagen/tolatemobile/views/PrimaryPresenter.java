@@ -11,10 +11,7 @@ import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.mvc.View;
 import eu.papenhagen.tolatemobile.Application;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 
 import eu.papenhagen.tolatemobile.enitiy.Delay;
@@ -28,52 +25,50 @@ import javafx.scene.control.ListCell;
  *
  * @author jay
  */
-public class MainPresenter implements Initializable {
+public class PrimaryPresenter {
 
     @FXML
     private View primary;
-    
+
     @FXML
     private ListView<Delay> DelayListView;
+    
+    private RestProvider rest;
 
-    /**
-     * Initializes the controller class.
-     */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        primary.setShowTransitionFactory(BounceInLeftTransition::new);
-        primary.showingProperty().addListener((obs, oldValue, newValue) -> {
-            if (newValue) {
-                AppBar appBar = MobileApplication.getInstance().getAppBar();
-                appBar.setNavIcon(Application.ANNOUNCEMENT_BUTTON);
-                appBar.getActionItems().add(Application.HOME_BUTTON);
-                appBar.setTitleText("Hauptmenü");
-            }
-        });
+    public void initialize() {
         
-        
-        
-        RestProvider rest = new RestProvider();
-        
-        ObservableList<Delay>lateness = FXCollections.observableList(rest.getList());
+        rest = new RestProvider();
+
+        ObservableList<Delay> lateness = FXCollections.observableList(rest.getList());
         System.out.println("size of ObservableList<Latenes> " + lateness.size());
 
         // create a JavaFX ListView and populate it with the retrieved list
-        DelayListView.setItems(lateness);
         DelayListView.setCellFactory(lv -> {
             return new ListCell<Delay>() {
                 @Override
-                protected void updateItem(Delay tolate, boolean empty) {
-                    super.updateItem(tolate, empty);
-
-                    if (!empty) {
-                        setText(tolate.getName() + " - " + tolate.getUrsache());
+                protected void updateItem(Delay item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (!empty && item != null) {
+                        setText(item.getName() + " - " + item.getUrsache());
                     } else {
                         setText(null);
                     }
                 }
             };
         });
-    }    
-    
+        DelayListView.setItems(lateness);
+        
+        primary.setShowTransitionFactory(BounceInLeftTransition::new);
+        primary.showingProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue) {
+                AppBar appBar = MobileApplication.getInstance().getAppBar();
+                appBar.setTitleText("Hauptmenü");
+                appBar.setNavIcon(Application.ANNOUNCEMENT_BUTTON);
+                appBar.getActionItems().add(Application.HOME_BUTTON);
+                
+            }
+        });
+        
+    }
+
 }

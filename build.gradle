@@ -19,12 +19,14 @@ repositories {
     mainClassName = 'eu.papenhagen.tolatemobile.Application'
     
     dependencies {
-        compile group: 'commons-io', name: 'commons-io', version: '2.5'
-        
         compile 'org.gradle:gradle-tooling-api:4.6'
         compile 'com.gluonhq:charm:4.4.1'
         compile 'com.squareup.okhttp3:okhttp:3.10.0'
         compile 'com.google.code.gson:gson:2.8.2'
+        
+        androidRuntime 'com.gluonhq:charm-android:2.1.0'
+        iosRuntime 'com.gluonhq:charm-ios:2.1.0'
+        desktopRuntime 'com.gluonhq:charm-desktop:2.1.0'
         
     
         compileOnly 'org.projectlombok:lombok:1.16.18'
@@ -49,12 +51,12 @@ repositories {
         ios {
             infoPList = file('src/ios/Default-Info.plist')
             forceLinkClasses = [
-            'com.gluonapplication.**.*',
-                'com.gluonhq.**.*',
+            'com.gluonhq.**.*',
                 'javax.annotations.**.*',
                 'javax.inject.**.*',
                 'javax.json.**.*',
-                'org.glassfish.json.**.*'
+                'org.glassfish.json.**.*',
+                'eu.papenhagen.tolatemobile.*'
             ]
             iosSkipSigning = true
         }

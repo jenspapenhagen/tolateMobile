@@ -13,21 +13,21 @@ import javafx.fxml.FXMLLoader;
  *
  * @author jay
  */
-public class MainView {
+public class PrimaryView {
 
     private final String name;
 
-    public MainView(String name) {
+    public PrimaryView(String name) {
         this.name = name;
     }
 
     public View getView() {
         try {
-            View view = FXMLLoader.load(MainView.class.getResource("main.fxml"));
+            View view = FXMLLoader.load(PrimaryView.class.getResource("primary.fxml"));
             view.setName(name);
             return view;
         } catch (IOException e) {
-            System.out.println("IOException: " + e);
+            System.out.println("IOException: " + e.getMessage());
             return new View(name);
         }
     }

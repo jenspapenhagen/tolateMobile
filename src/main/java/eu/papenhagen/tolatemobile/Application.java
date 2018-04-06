@@ -1,24 +1,17 @@
 package eu.papenhagen.tolatemobile;
 
 import com.gluonhq.charm.glisten.application.MobileApplication;
-import com.gluonhq.charm.glisten.layout.layer.SidePopupView;
-import com.gluonhq.charm.glisten.mvc.SplashView;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.gluonhq.charm.glisten.visual.Swatch;
-import eu.papenhagen.tolatemobile.views.MainView;
+import eu.papenhagen.tolatemobile.views.DelayView;
+import eu.papenhagen.tolatemobile.views.PrimaryView;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.geometry.Pos;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class Application extends MobileApplication {
 
@@ -32,31 +25,31 @@ public class Application extends MobileApplication {
 
     @Override
     public void init() {
-
         //bind style string to home button
         HOME_BUTTON.styleProperty().bind(HOME_BUTTON_STYLE);
 
-
-        addViewFactory(MobileApplication.SPLASH_VIEW, () -> {
-
-            ProgressIndicator loading = new ProgressIndicator();
-            loading.setProgress(-1);
-
-            Image image = new Image(Application.class.getResourceAsStream("/tolate.jpg"));
-            ImageView imageView = new ImageView();
-            imageView.setImage(image);
-
-            VBox vb = new VBox();
-            vb.getChildren().addAll(imageView, loading);
-            vb.setAlignment(Pos.CENTER);
-
-            SplashView splashView = new SplashView(HOME_VIEW, vb, Duration.seconds(2));
-            splashView.setBottom(new Label("Test123"));
-            return splashView;
-        });
+        addViewFactory(PRIMARY_VIEW, () -> new PrimaryView(PRIMARY_VIEW).getView());
+        addViewFactory(DELAY_VIEW, () -> new DelayView(DELAY_VIEW).getView());
+//        addViewFactory(MobileApplication.SPLASH_VIEW, () -> {
+//
+//            ProgressIndicator loading = new ProgressIndicator();
+//            loading.setProgress(-1);
+//
+//            Image image = new Image(Application.class.getResourceAsStream("/tolate.jpg"));
+//            ImageView imageView = new ImageView();
+//            imageView.setImage(image);
+//
+//            VBox vb = new VBox();
+//            vb.getChildren().addAll(imageView, loading);
+//            vb.setAlignment(Pos.CENTER);
+//
+//            SplashView splashView = new SplashView(HOME_VIEW, vb, Duration.seconds(2));
+//            splashView.setBottom(new Label("Test123"));
+//            return splashView;
+//        });
         
-        addViewFactory(PRIMARY_VIEW, () -> new MainView(PRIMARY_VIEW).getView());
-        addLayerFactory(APP_SIDE_MENU, () -> new SidePopupView(new NaviDrawer().getDrawer()));
+
+     //   addLayerFactory(APP_SIDE_MENU, () -> new SidePopupView(new NaviDrawer().getDrawer()));
 
     }
 
@@ -68,9 +61,5 @@ public class Application extends MobileApplication {
         ((Stage) scene.getWindow()).getIcons().add(new Image(Application.class.getResourceAsStream("/icon.png")));
     }
 
-    @Override
-    public void stop() throws Exception {
-        System.out.println("stop called");
-        super.stop(); //To change body of generated methods, choose Tools | Templates.
-    }
+   
 }

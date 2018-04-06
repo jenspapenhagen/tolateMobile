@@ -10,18 +10,15 @@ import com.gluonhq.charm.down.Services;
 import com.gluonhq.charm.down.plugins.LifecycleService;
 import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.application.ViewStackPolicy;
-import com.gluonhq.charm.glisten.control.Avatar;
 import com.gluonhq.charm.glisten.control.NavigationDrawer;
 import com.gluonhq.charm.glisten.control.NavigationDrawer.Item;
 import com.gluonhq.charm.glisten.control.NavigationDrawer.ViewItem;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 
 import javafx.scene.Node;
-import javafx.scene.image.Image;
 
 import static eu.papenhagen.tolatemobile.Application.APP_SIDE_MENU;
 import static eu.papenhagen.tolatemobile.Application.PRIMARY_VIEW;
-import javafx.beans.binding.Bindings;
 
 /**
  *
@@ -37,7 +34,7 @@ public class NaviDrawer {
         drawer.setHeader(header);
 
         final Item primaryItem = new ViewItem("Liste", MaterialDesignIcon.HOME.graphic(), Application.PRIMARY_VIEW, ViewStackPolicy.SKIP);
-        final Item secondaryItem = new ViewItem("Liste", MaterialDesignIcon.HOME.graphic(), Application.DELAY_VIEW, ViewStackPolicy.SKIP);
+        final Item secondaryItem = new ViewItem("Edit", MaterialDesignIcon.HOME.graphic(), Application.DELAY_VIEW, ViewStackPolicy.SKIP);
         
         drawer.getItems().addAll(primaryItem,secondaryItem);
 
@@ -51,7 +48,7 @@ public class NaviDrawer {
             drawer.getItems().add(quitItem);
         }
 
-        drawer.addEventHandler(NavigationDrawer.ITEM_SELECTED,                e -> MobileApplication.getInstance().hideLayer(APP_SIDE_MENU));
+        drawer.addEventHandler(NavigationDrawer.ITEM_SELECTED, e -> MobileApplication.getInstance().hideLayer(APP_SIDE_MENU));
 
         MobileApplication.getInstance().viewProperty().addListener((obs, oldView, newView) -> updateItem(newView.getName()));
         updateItem(PRIMARY_VIEW);
