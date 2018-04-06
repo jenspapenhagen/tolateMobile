@@ -21,7 +21,7 @@ public class RestProvider {
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     private static final String BASE_URL = "http://localhost/tolate/api.php/tolate?transform=1";
-    private static final String PUBLIC_BASE_URL = "http://phptestfield.byethost10.com/rest/tolate?transform=1";
+    private static final String PUBLIC_BASE_URL = "https://www.whatismy.name/rest/api.php/tolate?transform=1";
 
     OkHttpClient client = new OkHttpClient();
 
