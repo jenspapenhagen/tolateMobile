@@ -1,6 +1,7 @@
 package eu.papenhagen.tolatemobile.rest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.lang.reflect.Type;
 import java.io.IOException;
@@ -16,6 +17,7 @@ import com.google.gson.reflect.TypeToken;
 
 import eu.papenhagen.tolatemobile.enitiy.Delay;
 
+
 public class RestProvider {
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
@@ -23,22 +25,19 @@ public class RestProvider {
     private static final String BASE_URL = "http://localhost/tolate/api.php/tolate?transform=1";
     private static final String PUBLIC_BASE_URL = "https://www.whatismy.name/rest/api.php/tolate?transform=1";
 
-    OkHttpClient client = new OkHttpClient();
+    private OkHttpClient client = new OkHttpClient();
 
     public List<Delay> getList() {
-        RestProvider example = new RestProvider();
         String response = "";
         try {
-            response = example.run(PUBLIC_BASE_URL);
+            response = run(PUBLIC_BASE_URL);
+            if (response.isEmpty()) {
+                return new ArrayList<>();
+            }
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
-        if (response.isEmpty()) {
-            return new ArrayList<>();
-        }
 
-        //TODO get strange javascript is needed error
-        // <html><body><script type="text/javascript" src="/aes.js" ></script><script>function toNumbers(d){var e=[];d.replace(/(..)/g,function(d){e.push(parseInt(d,16))});return e}function toHex(){for(var d=[],d=1==arguments.length&&arguments[0].constructor==Array?arguments[0]:arguments,e="",f=0;f<d.length;f++)e+=(16>d[f]?"0":"")+d[f].toString(16);return e.toLowerCase()}var a=toNumbers("f655ba9d09a112d4968c63579db590b4"),b=toNumbers("98344c2eee86c3994890592585b49f80"),c=toNumbers("6685b7529b067f024fbb99e0e572bd8c");document.cookie="__test="+toHex(slowAES.decrypt(c,2,a,b))+"; expires=Thu, 31-Dec-37 23:55:55 GMT; path=/"; location.href="http://phptestfield.byethost10.com/rest/tolate?transform=1&i=1";</script><noscript>This site requires Javascript to work, please enable Javascript in your browser or use a browser with Javascript support</noscript></body></html>
         System.out.println("AUSGABE: " + response);
 
         //convert to a List
@@ -50,33 +49,56 @@ public class RestProvider {
     }
 
     public boolean addDelay(Delay delay) {
-        RestProvider example = new RestProvider();
         String json = delay.toJSON();
         String response = "";
         try {
-            response = example.post(PUBLIC_BASE_URL, json);
+            response = post(PUBLIC_BASE_URL, json);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
 
         return !response.isEmpty();
+    }
 
+    public int lastId() {
+        String response = "";
+        String filter = "&order=id,desc&columns=id&page=1,1";
+        try {
+            response = run(PUBLIC_BASE_URL + filter);
+            System.out.println(response);
+            if (response.isEmpty()) {
+                //there is no feedback form the API give back 1
+                return 1;
+            }
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        //This JSON is expected {"tolate":[{"id":2}],"_results":2}
+        //remove all none Numbers
+        response.replaceAll("[^-?0-9]+", " ");
+        List<String> asList = Arrays.asList(response.trim().split(" "));
+
+        return Integer.parseInt(asList.get(0));
     }
 
     private String run(String url) throws IOException {
+        String output = "";
         Request request = new Request.Builder()
                 .url(url)
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
-            if (response != null) {
-                return response.body().string();
-            }
+            output = response.body().string();
+        } catch (Exception ex) {
+            //output the Exception
+            output = ex.getMessage();
         }
-        return "";
+        return output;
     }
 
     private String post(String url, String json) throws IOException {
+        String output = "";
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)
@@ -84,14 +106,12 @@ public class RestProvider {
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
-            return response.body().string();
+            output = response.body().string();
+        } catch (Exception ex) {
+            //output the Exception
+            output = ex.getMessage();
         }
-    }
-
-    public int lastId() {
-        List<Delay> templist = getList();
-
-        return templist.get(templist.size() - 1).getId();
+        return output;
     }
 
 }

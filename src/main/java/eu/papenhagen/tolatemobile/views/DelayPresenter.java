@@ -5,14 +5,13 @@ import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.control.DropdownButton;
 import com.gluonhq.charm.glisten.control.TextField;
-import com.gluonhq.charm.glisten.layout.layer.FloatingActionButton;
 import com.gluonhq.charm.glisten.mvc.View;
-import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import eu.papenhagen.tolatemobile.Application;
 import eu.papenhagen.tolatemobile.enitiy.Delay;
 import eu.papenhagen.tolatemobile.rest.RestProvider;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -50,13 +49,15 @@ public class DelayPresenter {
 
     private Delay delayItem;
 
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    
+    private LocalDateTime today = LocalDateTime.now();
 
     public void initialize() {
+        rest = new RestProvider();
+
         delay.setShowTransitionFactory(BounceInLeftTransition::new);
 
-       
-        
         delay.showingProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue) {
                 if (newValue) {
@@ -69,23 +70,30 @@ public class DelayPresenter {
             }
         });
 
+        //binding the addbutton to the input of name/resone field
+        addButton.disableProperty().bind(
+                Bindings.createBooleanBinding(()
+                        -> nameTextfield.getText().trim().isEmpty(), nameTextfield.textProperty()
+                ).or(
+                        Bindings.createBooleanBinding(()
+                                -> resonTextField.getText().trim().isEmpty(), resonTextField.textProperty()
+                        )
+                ));
+
     }
 
     /**
      * this Methode get onAction on ADD button pressed
      */
     public void add() {
-        if (!nameTextfield.getText().equals("") && !resonTextField.getText().equals("")) {
 
-            rest = new RestProvider();
+        if (!nameTextfield.getText().isEmpty() && !resonTextField.getText().isEmpty()) {
             int lastId = rest.lastId();
-
-            LocalDateTime now = LocalDateTime.now();
 
             //Delay(int id, String date, String name, int delaytime, String ursache, boolean entschuldigt) 
             delayItem = new Delay(
                     lastId,
-                    now.format(formatter),
+                    today.format(formatter),
                     nameTextfield.getText(),
                     Integer.parseInt(delaySelector.getSelectedItem().getText()),
                     resonTextField.getText(),
@@ -96,6 +104,7 @@ public class DelayPresenter {
 
             nameTextfield.setText("");
             resonTextField.setText("");
+
             MobileApplication.getInstance().switchToPreviousView();
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

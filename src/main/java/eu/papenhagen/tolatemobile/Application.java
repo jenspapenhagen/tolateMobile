@@ -1,10 +1,10 @@
 package eu.papenhagen.tolatemobile;
 
 import com.gluonhq.charm.glisten.application.MobileApplication;
+import com.gluonhq.charm.glisten.layout.layer.SidePopupView;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.gluonhq.charm.glisten.visual.Swatch;
-import eu.papenhagen.tolatemobile.views.DelayView;
-import eu.papenhagen.tolatemobile.views.PrimaryView;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -12,6 +12,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+import eu.papenhagen.tolatemobile.views.DelayView;
+import eu.papenhagen.tolatemobile.views.PrimaryView;
 
 public class Application extends MobileApplication {
 
@@ -49,7 +52,7 @@ public class Application extends MobileApplication {
 //        });
         
 
-     //   addLayerFactory(APP_SIDE_MENU, () -> new SidePopupView(new NaviDrawer().getDrawer()));
+        addLayerFactory(APP_SIDE_MENU, () -> new SidePopupView(new NaviDrawer().getDrawer()));
 
     }
 
