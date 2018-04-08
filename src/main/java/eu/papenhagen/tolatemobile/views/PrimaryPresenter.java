@@ -39,11 +39,20 @@ public class PrimaryPresenter {
     private RestProvider rest;
 
     public void initialize() {
-
         rest = new RestProvider();
 
-        ObservableList<Delay> lateness = FXCollections.observableList(rest.getList());
-        System.out.println("size of ObservableList<Latenes> " + lateness.size());
+        primary.setShowTransitionFactory(BounceInLeftTransition::new);
+        primary.showingProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue) {
+                AppBar appBar = MobileApplication.getInstance().getAppBar();
+                appBar.setTitleText("Hauptmenü");
+                appBar.setStyle("-fx-background-color: #ff516e; -fx-box-shadow: none;");
+                //appBar.setNavIcon(Application.ANNOUNCEMENT_BUTTON);
+                //appBar.getActionItems().add(Application.HOME_BUTTON);
+                System.out.println("newValue in PrimaryPresenter");
+
+            }
+        });
 
         // create a JavaFX ListView and populate it with the retrieved list
         DelayListView.setCellFactory(lv -> {
@@ -59,18 +68,10 @@ public class PrimaryPresenter {
                 }
             };
         });
+        ObservableList<Delay> lateness = FXCollections.observableList(rest.getList());
+        System.out.println("size of ObservableList<Latenes> " + lateness.size());
+
         DelayListView.setItems(lateness);
-
-        primary.setShowTransitionFactory(BounceInLeftTransition::new);
-        primary.showingProperty().addListener((obs, oldValue, newValue) -> {
-            if (newValue) {
-                AppBar appBar = MobileApplication.getInstance().getAppBar();
-                appBar.setTitleText("Hauptmenü");
-                //appBar.setNavIcon(Application.ANNOUNCEMENT_BUTTON);
-                appBar.getActionItems().add(Application.HOME_BUTTON);
-
-            }
-        });
 
     }
 

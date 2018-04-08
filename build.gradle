@@ -19,18 +19,16 @@ repositories {
     mainClassName = 'eu.papenhagen.tolatemobile.Application'
     
     dependencies {
-        //compile 'org.gradle:gradle-tooling-api:4.6'
         compile 'com.gluonhq:charm:4.4.1'
         compile 'com.squareup.okhttp3:okhttp:3.10.0'
         compile 'com.google.code.gson:gson:2.8.2'
         
-        androidRuntime 'com.gluonhq:charm-android:2.1.0'
-        iosRuntime 'com.gluonhq:charm-ios:2.1.0'
-        desktopRuntime 'com.gluonhq:charm-desktop:2.1.0'
+    androidRuntime 'com.gluonhq:charm-android:3.0.0'
+    iosRuntime 'com.gluonhq:charm-ios:3.0.0'
+desktopRuntime 'com.gluonhq:charm-desktop:3.0.0'
         
     
-        compileOnly 'org.projectlombok:lombok:1.16.18'
-        
+        compileOnly 'org.projectlombok:lombok:1.16.18'        
     }
 
     jfxmobile {

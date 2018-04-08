@@ -26,6 +26,8 @@ public class RestProvider {
     private static final String PUBLIC_BASE_URL = "https://www.whatismy.name/rest/api.php/tolate?transform=1";
 
     private OkHttpClient client = new OkHttpClient();
+    
+    private static RestProvider instance = null;
 
     public List<Delay> getList() {
         String response = "";

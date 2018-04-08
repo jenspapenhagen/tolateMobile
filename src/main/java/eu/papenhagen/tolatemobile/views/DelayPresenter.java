@@ -5,7 +5,9 @@ import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.control.DropdownButton;
 import com.gluonhq.charm.glisten.control.TextField;
+import com.gluonhq.charm.glisten.layout.layer.FloatingActionButton;
 import com.gluonhq.charm.glisten.mvc.View;
+import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import eu.papenhagen.tolatemobile.Application;
 import eu.papenhagen.tolatemobile.enitiy.Delay;
 import eu.papenhagen.tolatemobile.rest.RestProvider;
@@ -50,21 +52,25 @@ public class DelayPresenter {
     private Delay delayItem;
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    
+
     private LocalDateTime today = LocalDateTime.now();
 
     public void initialize() {
         rest = new RestProvider();
 
         delay.setShowTransitionFactory(BounceInLeftTransition::new);
-
+        delay.getLayers().add(new FloatingActionButton(MaterialDesignIcon.INFO.text,
+                e -> System.out.println("Info")).getLayer());
         delay.showingProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue) {
                 if (newValue) {
                     AppBar appBar = MobileApplication.getInstance().getAppBar();
-                    appBar.setTitleText("Add the button");
-                    //appBar.setNavIcon(Application.ANNOUNCEMENT_BUTTON);
+                    appBar.setTitleText("Add Delay");
+                    appBar.setStyle("-fx-background-color: #ff516e; -fx-box-shadow: none;");
+                    appBar.setNavIcon(Application.ANNOUNCEMENT_BUTTON);
                     appBar.getActionItems().add(Application.HOME_BUTTON);
+
+                    System.out.println("newValue in DelayPresenter");
 
                 }
             }
@@ -86,7 +92,6 @@ public class DelayPresenter {
      * this Methode get onAction on ADD button pressed
      */
     public void add() {
-
         if (!nameTextfield.getText().isEmpty() && !resonTextField.getText().isEmpty()) {
             int lastId = rest.lastId();
 
