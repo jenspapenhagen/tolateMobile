@@ -47,8 +47,7 @@ public class SecondaryPresenter {
         rest = new RestProvider();
 
         secondary.setShowTransitionFactory(BounceInRightTransition::new);
-        secondary.getLayers().add(new FloatingActionButton(MaterialDesignIcon.INFO.text,
-                e -> System.out.println("Info")).getLayer());
+        //   secondary.getLayers().add(new FloatingActionButton(MaterialDesignIcon.INFO.text, e -> System.out.println("Info")).getLayer());
 
         secondary.showingProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue) {

@@ -16,14 +16,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import com.tolatemobile.enitiy.Delay;
-import java.util.Collection;
 
 public class RestProvider {
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-
-    private static final String BASE_URL = "http://localhost/tolate/api.php/tolate?transform=1";
-    private static final String PUBLIC_BASE_URL = "https://www.whatismy.name/rest/api.php/tolate/?transform=1";
+    
+    //private static final String BASE_URL = "http://localhost/tolate/api.php/tolate?transform=1";
+    private static final String BASE_URL = "https://www.whatismy.name/rest/api.php/tolate/?transform=1";
 
     private OkHttpClient client = new OkHttpClient();
 
@@ -32,7 +31,7 @@ public class RestProvider {
     public List<Delay> getList() {
         String response = ""; //
         try {
-            response = run(PUBLIC_BASE_URL);
+            response = run(BASE_URL);
             if (response.isEmpty()) {
                 return new ArrayList<>();
             }
@@ -40,26 +39,27 @@ public class RestProvider {
             System.out.println(ex.getMessage());
         }
 
+        //This JSON is expected {"tolate":[{"id":1,"date":"2017-02-15","name":"Jens","delaytime":15,"ursache":"testeintrag","entschuldigt":1}, .....
         System.out.println("AUSGABE: " + response);
+        //cleanup the JSON so its an Array of Delay Entires
+        if(response.contains("tolate")){
+            response.replaceFirst("\"tolate\":", response);
+        }
 
         
-        Delay[] coll = gson.fromJson(response, Delay[].class);
-        List<Delay> list = new ArrayList<>(Arrays.asList(coll));
-
-
-        
-//        //get Array of items and than transform it to a list for better handling
-//        Type listType = new TypeToken<ArrayList<Delay>>() {
-//        }.getType();
-//        Collection<Delay> coll = gson.fromJson(response, listType);
-//        
-//        //transform Collection back to a List
-//        List list;
-//        if (coll instanceof List) {
-//            list = (List) coll;
-//        }else{
-//            list = new ArrayList(coll);
-//        }
+       
+      //get Array of items and than transform it to a list for better handling
+      Type listType = new TypeToken<ArrayList<Delay>>() {
+      }.getType();
+      List<Delay> list = gson.fromJson(response, listType);
+      
+//      //transform Collection back to a List
+//      List list;
+//      if (coll instanceof List) {
+//          list = (List) coll;
+//      }else{
+//          list = new ArrayList(coll);
+//      }
         
         return list;
     }
@@ -68,7 +68,7 @@ public class RestProvider {
         String json = delay.toJSON();
         String response = "";
         try {
-            response = post(PUBLIC_BASE_URL, json);
+            response = post(BASE_URL, json);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
@@ -80,7 +80,7 @@ public class RestProvider {
         String response = "";
         String filter = "&order=id,desc&columns=id&page=1,1";
         try {
-            response = run(PUBLIC_BASE_URL + filter);
+            response = run(BASE_URL + filter);
             System.out.println(response);
             if (response.isEmpty()) {
                 //there is no feedback form the API give back 1

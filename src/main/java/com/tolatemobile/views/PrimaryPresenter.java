@@ -53,10 +53,10 @@ public class PrimaryPresenter {
                 }
             };
         });
-//        ObservableList<Delay> lateness = FXCollections.observableList(rest.getList());
-//        System.out.println("size of ObservableList<Latenes> " + lateness.size());
-//
-//        DelayListView.setItems(lateness);
+        ObservableList<Delay> lateness = FXCollections.observableList(rest.getList());
+        System.out.println("size of ObservableList<Latenes> " + lateness.size());
+
+        DelayListView.setItems(lateness);
 
     }
 
