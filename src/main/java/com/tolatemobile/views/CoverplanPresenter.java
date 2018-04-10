@@ -59,7 +59,8 @@ public class CoverplanPresenter {
                 protected void updateItem(CoverPlan item, boolean empty) {
                     super.updateItem(item, empty);
                     if (!empty && item != null) {
-                        setText(item.getTitle() + " - " + item.getDescription());
+                        String title = item.getTitle();
+                        setText(title + " - " + item.getDescription());
                     } else {
                         setText(null);
                     }

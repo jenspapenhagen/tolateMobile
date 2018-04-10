@@ -30,7 +30,7 @@ public class DrawerManager {
         drawer.setHeader(header);
 
         final Item primaryItem = new ViewItem("Liste der Verspätungen", MaterialDesignIcon.HOME.graphic(), PRIMARY_VIEW, ViewStackPolicy.SKIP);
-        final Item secondaryItem = new ViewItem("Verspätung hinzufügen", MaterialDesignIcon.DASHBOARD.graphic(), SECONDARY_VIEW);
+        final Item secondaryItem = new ViewItem("Verspätung hinzufügen", MaterialDesignIcon.NOTE_ADD.graphic(), SECONDARY_VIEW);
         final Item coverplanItem = new ViewItem("Vertretungsplan ", MaterialDesignIcon.ALARM.graphic(), COVERPLAN_VIEW);
         
         drawer.getItems().addAll(primaryItem, secondaryItem, coverplanItem);

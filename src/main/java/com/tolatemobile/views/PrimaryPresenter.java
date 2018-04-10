@@ -35,7 +35,7 @@ public class PrimaryPresenter {
         rest = new RestProvider();
 
         primary.setShowTransitionFactory(BounceInRightTransition::new);
-        primary.getLayers().add(new FloatingActionButton(MaterialDesignIcon.ADD.text, e 
+        primary.getLayers().add(new FloatingActionButton(MaterialDesignIcon.ADD.text, e
                 -> MobileApplication.getInstance().switchView(Application.SECONDARY_VIEW)).getLayer());
         primary.showingProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue) {
@@ -55,7 +55,7 @@ public class PrimaryPresenter {
                 protected void updateItem(Delay item, boolean empty) {
                     super.updateItem(item, empty);
                     if (!empty && item != null) {
-                        setText(item.getName() + " - " + item.getUrsache());
+                        setText(item.getName() + " - " + item.getUrsache() + " - " + item.getDelaytime());
                     } else {
                         setText(null);
                     }
