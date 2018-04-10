@@ -15,6 +15,8 @@ import com.google.gson.Gson;
 
 import com.tolatemobile.enitiy.Delay;
 import com.tolatemobile.enitiy.JsonListHelper;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class RestProvider {
 
@@ -28,9 +30,16 @@ public class RestProvider {
     private Gson gson = new Gson();
 
     public List<Delay> getList() {
-        String response = ""; //
+        String response = "";
+        String filter = "&filter=date,eq,"; //&filter=date,eq,2017-02-15
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
+        String today = formatter.format(LocalDate.now());
+        System.out.println("the URL: " + BASE_URL + filter + today);
+        
         try {
-            response = run(BASE_URL);
+            response = run(BASE_URL + filter + today);
+
             if (response.isEmpty()) {
                 return new ArrayList<>();
             }
@@ -39,8 +48,7 @@ public class RestProvider {
         }
 
         //This JSON is expected {"tolate":[{"id":1,"date":"2017-02-15","name":"Jens","delaytime":15,"ursache":"testeintrag","entschuldigt":1}, .....
-       // System.out.println("AUSGABE: " + response);
-        
+        // System.out.println("AUSGABE: " + response);
         JsonListHelper warpper = gson.fromJson(response, JsonListHelper.class);
         List<Delay> list = warpper.getTolate();
 
@@ -77,6 +85,11 @@ public class RestProvider {
         //remove all none Numbers
         response.replaceAll("[^-?0-9]+", " ");
         List<String> asList = Arrays.asList(response.trim().split(" "));
+        
+        //Caused by: java.lang.NumberFormatException: For input string: "{"tolate":[{"id":3}],"_results":3}"
+//	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+//	at java.lang.Integer.parseInt(Integer.java:580)
+//	at java.lang.Integer.parseInt(Integer.java:615)
 
         return Integer.parseInt(asList.get(0));
     }
