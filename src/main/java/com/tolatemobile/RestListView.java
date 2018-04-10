@@ -38,8 +38,11 @@ import javafx.collections.ObservableList;
 
 import com.tolatemobile.enitiy.Delay;
 import com.tolatemobile.rest.RestProvider;
+import org.slf4j.LoggerFactory;
 
 public class RestListView extends View {
+    
+    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(RestListView.class);
 
     public RestListView(String name) {
         super(name);
@@ -48,7 +51,7 @@ public class RestListView extends View {
 
         // retrieve a list from the DataProvider
         ObservableList<Delay> lateness = FXCollections.observableList(rest.getList());
-        System.out.println("size of ObservableList<Latenes> " + lateness.size());
+        LOG.debug("size of ObservableList<Latenes> " + lateness.size());
 
         // create a JavaFX ListView and populate it with the retrieved list
         ListView<Delay> lvLatenes = new ListView<>(lateness);

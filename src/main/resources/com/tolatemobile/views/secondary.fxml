@@ -12,36 +12,36 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.Region?>
 
-<View fx:id="secondary" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@secondary.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tolatemobile.views.SecondaryPresenter">
-   <center>
-      <FlowPane hgap="5.0" prefWrapLength="150.0" vgap="5.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label alignment="TOP_CENTER" text="Name:" />
-            <TextField fx:id="nameTextfield" />
-            <Region maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="20.0" minWidth="150.0" />
-            <Label graphicTextGap="5.0" text="Ursache:" />
-            <TextField fx:id="resonTextField" />
-            <Label text="Verspätung:" />
-            <DropdownButton fx:id="delaySelector">
-                <items>
-                    <MenuItem text="5 Min" />
-                    <MenuItem text="10 Min" />
-                    <MenuItem text="15 Min" />
-                  <MenuItem text="20 Min" />
-                  <MenuItem text="30 Min" />
-                  <MenuItem text="45 Min" />
-                  <MenuItem text="1 Stunde" />
-                  <MenuItem text="2 Stunden" />
-                  <MenuItem text="Kompletten Tag" />
-                </items>
-            </DropdownButton>
-            <Label text="Entschuldigung" />
-            <CheckBox fx:id="yellowLetter" mnemonicParsing="false" text="liegt vor" />
-            <Button fx:id="addButton" alignment="CENTER" contentDisplay="TOP" maxHeight="50.0" maxWidth="150.0" mnemonicParsing="false" onAction="#add" text="Hinzufügen" />
-         </children>
-      </FlowPane>
-   </center>
-   <opaqueInsets>
-      <Insets />
-   </opaqueInsets>
+<View fx:id="secondary" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@secondary.css" xmlns="http://javafx.com/javafx/8.0.162" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tolatemobile.views.SecondaryPresenter">
+    <center>
+        <FlowPane hgap="5.0" prefWrapLength="150.0" vgap="5.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label alignment="TOP_CENTER" text="Name:" />
+                <TextField fx:id="nameTextfield" />
+                <Region maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="20.0" minWidth="150.0" />
+                <Label graphicTextGap="5.0" text="Ursache:" />
+                <TextField fx:id="resonTextField" />
+                <Label text="Verspätung:" />
+                <DropdownButton fx:id="delaySelector">
+                    <items>
+                        <MenuItem text="5 Min" />
+                        <MenuItem text="10 Min" />
+                        <MenuItem text="15 Min" />
+                        <MenuItem text="20 Min" />
+                        <MenuItem text="30 Min" />
+                        <MenuItem text="45 Min" />
+                        <MenuItem text="1 Stunde" />
+                        <MenuItem text="2 Stunden" />
+                        <MenuItem text="Kompletten Tag" />
+                    </items>
+                </DropdownButton>
+                <Label text="Entschuldigung" />
+                <CheckBox fx:id="yellowLetter" mnemonicParsing="false" text="liegt vor" />
+                <Button fx:id="addButton" alignment="CENTER" contentDisplay="TOP" maxHeight="50.0" maxWidth="150.0" mnemonicParsing="false" onAction="#add" text="Hinzufügen" />
+            </children>
+        </FlowPane>
+    </center>
+    <opaqueInsets>
+        <Insets />
+    </opaqueInsets>
 </View>

@@ -17,8 +17,8 @@ import javafx.stage.Stage;
 public class Application extends MobileApplication {
 
     public static final String PRIMARY_VIEW = HOME_VIEW;
-    public static final String SECONDARY_VIEW = "Secondary View";
-    public static final String MENU_LAYER = "Side Menu";
+    public static final String SECONDARY_VIEW = "Verspätung hinzufügen";
+    public static final String MENU_LAYER = "Menu";
 
     private static final StringProperty HOME_BUTTON_STYLE = new SimpleStringProperty("-fx-text-fill: white;");
     public static final Button HOME_BUTTON = MaterialDesignIcon.HOME.button(e -> MobileApplication.getInstance().switchView(Application.PRIMARY_VIEW));
@@ -28,6 +28,7 @@ public class Application extends MobileApplication {
     public void init() {
         //bind style string to home button
         HOME_BUTTON.styleProperty().bind(HOME_BUTTON_STYLE);
+        
         addViewFactory(PRIMARY_VIEW, () -> (View) new PrimaryView().getView());
         addViewFactory(SECONDARY_VIEW, () -> (View) new SecondaryView().getView());
 

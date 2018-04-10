@@ -15,6 +15,7 @@ import javafx.scene.control.ListView;
 import com.tolatemobile.Application;
 import com.tolatemobile.enitiy.Delay;
 import com.tolatemobile.rest.RestProvider;
+import org.slf4j.LoggerFactory;
 
 public class PrimaryPresenter {
 
@@ -25,6 +26,8 @@ public class PrimaryPresenter {
     private ListView<Delay> DelayListView;
 
     private RestProvider rest;
+    
+    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(PrimaryPresenter.class);
 
     public void initialize() {
         rest = new RestProvider();
@@ -35,8 +38,8 @@ public class PrimaryPresenter {
                 appBar.setNavIcon(MaterialDesignIcon.MENU.button(e
                         -> MobileApplication.getInstance().showLayer(Application.MENU_LAYER)));
                 appBar.setTitleText("Verspätungen");
-//                appBar.getActionItems().add(MaterialDesignIcon.SEARCH.button(e
-//                        -> System.out.println("Search")));
+                appBar.getActionItems().add(MaterialDesignIcon.ADD.button(e
+                        -> MobileApplication.getInstance().switchView(Application.SECONDARY_VIEW)));
             }
         });
         
@@ -56,7 +59,7 @@ public class PrimaryPresenter {
         });
         //build up the List
         ObservableList<Delay> lateness = FXCollections.observableList(rest.getList());
-        System.out.println("size of ObservableList<Latenes> " + lateness.size());
+        LOG.debug("size of ObservableList<Latenes> " + lateness.size());
 
         DelayListView.setItems(lateness);
     }

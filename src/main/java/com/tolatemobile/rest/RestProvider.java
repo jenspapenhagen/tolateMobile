@@ -27,6 +27,8 @@ public class RestProvider {
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
+
     //private static final String BASE_URL = "http://localhost/tolate/api.php/tolate?transform=1";
     private static final String BASE_URL = "https://www.whatismy.name/rest/api.php/tolate/?transform=1";
 
@@ -38,9 +40,7 @@ public class RestProvider {
         String response = "";
         String filter = "&filter=date,eq,"; //&filter=date,eq,2017-02-15
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
         String today = formatter.format(LocalDate.now());
-        System.out.println("the URL: " + BASE_URL + filter + today);
 
         try {
             response = run(BASE_URL + filter + today);
