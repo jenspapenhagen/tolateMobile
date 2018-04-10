@@ -5,6 +5,7 @@ import com.tolatemobile.views.SecondaryView;
 
 import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.layout.layer.SidePopupView;
+import com.gluonhq.charm.glisten.mvc.SplashView;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.gluonhq.charm.glisten.visual.Swatch;
@@ -12,11 +13,17 @@ import com.tolatemobile.views.CoverplanView;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.geometry.Pos;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Application extends MobileApplication {
 
@@ -38,23 +45,23 @@ public class Application extends MobileApplication {
         addViewFactory(SECONDARY_VIEW, () -> (View) new SecondaryView().getView());
         addViewFactory(COVERPLAN_VIEW, () -> (View) new CoverplanView().getView());
 
-        //        addViewFactory(MobileApplication.SPLASH_VIEW, () -> {
-//
-//            ProgressIndicator loading = new ProgressIndicator();
-//            loading.setProgress(-1);
-//
-//            Image image = new Image(Application.class.getResourceAsStream("/tolate.jpg"));
-//            ImageView imageView = new ImageView();
-//            imageView.setImage(image);
-//
-//            VBox vb = new VBox();
-//            vb.getChildren().addAll(imageView, loading);
-//            vb.setAlignment(Pos.CENTER);
-//
-//            SplashView splashView = new SplashView(HOME_VIEW, vb, Duration.seconds(2));
-//            splashView.setBottom(new Label("Test123"));
-//            return splashView;
-//        });
+        addViewFactory(MobileApplication.SPLASH_VIEW, () -> {
+
+            ProgressIndicator loading = new ProgressIndicator();
+            loading.setProgress(-1);
+
+            Image image = new Image(Application.class.getResourceAsStream("/tolate.jpg"));
+            ImageView imageView = new ImageView();
+            imageView.setImage(image);
+
+            VBox vb = new VBox();
+            vb.getChildren().addAll(imageView, loading);
+            vb.setAlignment(Pos.CENTER);
+
+            SplashView splashView = new SplashView(HOME_VIEW, vb, Duration.seconds(2));
+            splashView.setBottom(new Label("Test123"));
+            return splashView;
+        });
         addLayerFactory(MENU_LAYER, () -> new SidePopupView(new DrawerManager().getDrawer()));
     }
 
