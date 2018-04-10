@@ -5,23 +5,33 @@ import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.control.AppBar;
 import com.gluonhq.charm.glisten.control.DropdownButton;
 import com.gluonhq.charm.glisten.control.TextField;
-import com.gluonhq.charm.glisten.layout.layer.FloatingActionButton;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
+
 import com.tolatemobile.Application;
 import com.tolatemobile.enitiy.Delay;
 import com.tolatemobile.rest.RestProvider;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 
 public class SecondaryPresenter {
 
@@ -38,10 +48,31 @@ public class SecondaryPresenter {
     private DropdownButton delaySelector;
 
     @FXML
-    private CheckBox yellowLetter;
+    private Label nameLabel;
+
+    @FXML
+    private Label resoneLable;
+
+    @FXML
+    private Label delayLable;
+
+    @FXML
+    private Label yelloeLetterLable;
+
+    @FXML
+    private CheckBox yellowLetterCheckBox;
 
     @FXML
     private Button addButton;
+
+    @FXML
+    private StackPane mainPane;
+
+    @FXML
+    private VBox vBox;
+
+    @FXML
+    private HBox hBox;
 
     private RestProvider rest;
 
@@ -57,6 +88,8 @@ public class SecondaryPresenter {
 
     public void initialize() {
         rest = new RestProvider();
+
+        mainPane.setPadding(new Insets(24));
 
         secondary.setShowTransitionFactory(BounceInRightTransition::new);
         secondary.showingProperty().addListener((obs, oldValue, newValue) -> {
@@ -76,6 +109,67 @@ public class SecondaryPresenter {
                         -> resonTextField.getText().trim().isEmpty(), resonTextField.textProperty()
                 )));
 
+        //change layout for responvice design bigger than 600px
+        secondary.widthProperty().greaterThan(600).addListener(
+                (obs, oldValue, newValue) -> {
+                    if (!newValue) {
+                        changeToSmallLayout();
+                    } else {
+                        changeToLargeLayout();
+                    }
+                });
+
+    }
+
+    public void changeToSmallLayout() {
+        hBox.getChildren().clear();
+        vBox.getChildren().clear();
+        vBox.getChildren().addAll(nameLabel, nameTextfield, resoneLable,
+                resonTextField, delayLable, delaySelector,
+                yelloeLetterLable, yellowLetterCheckBox, addButton);
+        mainPane.getChildren().clear();
+        mainPane.getChildren().add(vBox);
+    }
+
+    public void changeToLargeLayout() {
+        hBox.getChildren().clear();
+        vBox.getChildren().clear();
+
+        //line 0
+        HBox tempHBox = new HBox();
+        tempHBox.setSpacing(5.0);
+        tempHBox.getChildren().addAll(nameLabel, nameTextfield);
+
+        //line 1
+        HBox tempHBox1 = new HBox();
+        tempHBox1.setSpacing(10.0);
+        tempHBox1.getChildren().addAll(resoneLable, resonTextField);
+
+        //line 2
+        HBox tempHBox2 = new HBox();
+        tempHBox2.setSpacing(5.0);
+        tempHBox2.getChildren().addAll(delayLable, delaySelector);
+
+        //line 3
+        HBox tempHBox3 = new HBox();
+        tempHBox3.setSpacing(5.0);
+        tempHBox3.getChildren().addAll(yelloeLetterLable, yellowLetterCheckBox);
+
+        //put lines under eatch other
+        VBox tempVBox = new VBox();
+        tempVBox.setSpacing(5.0);
+        tempVBox.getChildren().addAll(tempHBox, tempHBox1, tempHBox2, tempHBox3, addButton);
+
+        hBox.getChildren().add(tempVBox);
+        
+        HBox.setHgrow(nameTextfield, Priority.ALWAYS);
+        HBox.setHgrow(resonTextField, Priority.ALWAYS);
+        HBox.setHgrow(delaySelector, Priority.ALWAYS);
+        HBox.setHgrow(tempVBox, Priority.ALWAYS);
+        HBox.setHgrow(hBox, Priority.ALWAYS);
+
+        mainPane.getChildren().clear();
+        mainPane.getChildren().add(hBox);
     }
 
     @FXML
@@ -87,7 +181,7 @@ public class SecondaryPresenter {
                     nameTextfield.getText(),
                     getMinutesFormDropdownButton(delaySelector.getSelectedItem()),
                     resonTextField.getText(),
-                    yellowLetter.isSelected());
+                    yellowLetterCheckBox.isSelected());
 
             rest.addDelay(delayItem);
 

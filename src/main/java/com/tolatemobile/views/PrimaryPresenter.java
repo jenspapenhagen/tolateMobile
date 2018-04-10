@@ -48,7 +48,7 @@ public class PrimaryPresenter {
             }
         });
 
-        // create a JavaFX ListView and populate it with the retrieved list
+        // build a nice cellFactory
         DelayListView.setCellFactory(lv -> {
             return new ListCell<Delay>() {
                 @Override
@@ -62,7 +62,7 @@ public class PrimaryPresenter {
                 }
             };
         });
-        //build up the List
+        //fill the List
         ObservableList<Delay> lateness = FXCollections.observableList(rest.getList());
         LOG.debug("size of ObservableList<Latenes> " + lateness.size());
 

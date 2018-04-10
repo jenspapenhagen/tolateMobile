@@ -9,37 +9,42 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<View fx:id="secondary" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@secondary.css" xmlns="http://javafx.com/javafx/8.0.162" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tolatemobile.views.SecondaryPresenter">
+<View fx:id="secondary" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@secondary.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tolatemobile.views.SecondaryPresenter">
     <center>
-        <FlowPane hgap="5.0" prefWrapLength="150.0" vgap="5.0" BorderPane.alignment="CENTER">
+        <StackPane fx:id="mainPane" alignment="TOP_LEFT" BorderPane.alignment="CENTER">
             <children>
-                <Label alignment="TOP_CENTER" text="Name:" />
-                <TextField fx:id="nameTextfield" />
-                <Region maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="20.0" minWidth="150.0" />
-                <Label graphicTextGap="5.0" text="Ursache:" />
-                <TextField fx:id="resonTextField" />
-                <Label text="Verspätung:" />
-                <DropdownButton fx:id="delaySelector">
-                    <items>
-                        <MenuItem text="5 Min" />
-                        <MenuItem text="10 Min" />
-                        <MenuItem text="15 Min" />
-                        <MenuItem text="20 Min" />
-                        <MenuItem text="30 Min" />
-                        <MenuItem text="45 Min" />
-                        <MenuItem text="1 Stunde" />
-                        <MenuItem text="2 Stunden" />
-                        <MenuItem text="Kompletten Tag" />
-                    </items>
-                </DropdownButton>
-                <Label text="Entschuldigung" />
-                <CheckBox fx:id="yellowLetter" mnemonicParsing="false" text="liegt vor" />
-                <Button fx:id="addButton" alignment="CENTER" contentDisplay="TOP" maxHeight="50.0" maxWidth="150.0" mnemonicParsing="false" onAction="#add" text="Hinzufügen" />
+                <VBox fx:id="vBox" spacing="5.0">
+                    <children>
+                        <Label fx:id="nameLabel" alignment="TOP_CENTER" text="Name:" />
+                        <TextField fx:id="nameTextfield" maxWidth="518.0" VBox.vgrow="ALWAYS" />
+                        <Label fx:id="resoneLable" graphicTextGap="5.0" text="Ursache:" />
+                        <TextField fx:id="resonTextField" maxWidth="500.0" VBox.vgrow="ALWAYS" />
+                        <Label fx:id="delayLable" text="Verspätung:" />
+                        <DropdownButton fx:id="delaySelector" maxWidth="486.0" VBox.vgrow="ALWAYS">
+                            <items>
+                                <MenuItem text="5 Min" />
+                                <MenuItem text="10 Min" />
+                                <MenuItem text="15 Min" />
+                                <MenuItem text="20 Min" />
+                                <MenuItem text="30 Min" />
+                                <MenuItem text="45 Min" />
+                                <MenuItem text="1 Stunde" />
+                                <MenuItem text="2 Stunden" />
+                                <MenuItem text="Kompletten Tag" />
+                            </items>
+                        </DropdownButton>
+                        <Label fx:id="yelloeLetterLable" text="Entschuldigung" />
+                        <CheckBox fx:id="yellowLetterCheckBox" mnemonicParsing="false" text="liegt vor" />
+                        <Button fx:id="addButton" alignment="CENTER" contentDisplay="TOP" maxHeight="50.0" maxWidth="150.0" mnemonicParsing="false" onAction="#add" text="Hinzufügen" VBox.vgrow="ALWAYS" />
+                    </children>
+                </VBox>
+                <HBox fx:id="hBox" spacing="5.0" />
             </children>
-        </FlowPane>
+        </StackPane>
     </center>
     <opaqueInsets>
         <Insets />
