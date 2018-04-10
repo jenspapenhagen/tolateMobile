@@ -29,6 +29,8 @@ public class RestProvider {
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
 
+    private final Pattern pattern = Pattern.compile("-?\\d+");
+
     //private static final String BASE_URL = "http://localhost/tolate/api.php/tolate?transform=1";
     private static final String BASE_URL = "https://www.whatismy.name/rest/api.php/tolate/?transform=1";
 
@@ -74,6 +76,11 @@ public class RestProvider {
         return !response.isEmpty();
     }
 
+    /**
+     * get the Last ID of items form the REST
+     *
+     * @return the last id or 1
+     */
     public int lastId() {
         String response = "";
         String filter = "&order=id,desc&columns=id&page=1,1";
@@ -91,7 +98,6 @@ public class RestProvider {
         }
 
         //This JSON is expected {"tolate":[{"id":2}],"_results":2}
-        Pattern pattern = Pattern.compile("-?\\d+");
         Matcher matcher = pattern.matcher(response);
 
         List<Integer> tempList = new ArrayList<>();

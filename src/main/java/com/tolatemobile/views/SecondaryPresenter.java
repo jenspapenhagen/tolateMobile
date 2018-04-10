@@ -13,25 +13,33 @@ import com.tolatemobile.enitiy.Delay;
 import com.tolatemobile.rest.RestProvider;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.MenuItem;
 
 public class SecondaryPresenter {
 
     @FXML
     private View secondary;
+
     @FXML
     private TextField nameTextfield;
+
     @FXML
     private TextField resonTextField;
+
     @FXML
     private DropdownButton delaySelector;
+
     @FXML
     private CheckBox yellowLetter;
+
     @FXML
     private Button addButton;
 
@@ -39,23 +47,24 @@ public class SecondaryPresenter {
 
     private Delay delayItem;
 
+    private final int MAXMINUTES = 270;
+
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    private LocalDateTime today = LocalDateTime.now();
+    private final Pattern pattern = Pattern.compile("-?\\d+");
+
+    private final LocalDateTime today = LocalDateTime.now();
 
     public void initialize() {
         rest = new RestProvider();
 
         secondary.setShowTransitionFactory(BounceInRightTransition::new);
-        //   secondary.getLayers().add(new FloatingActionButton(MaterialDesignIcon.INFO.text, e -> System.out.println("Info")).getLayer());
-
         secondary.showingProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue) {
                 AppBar appBar = MobileApplication.getInstance().getAppBar();
+                appBar.setTitleText("Hinzufügen von Verspätung");
                 appBar.setNavIcon(MaterialDesignIcon.MENU.button(e
                         -> MobileApplication.getInstance().showLayer(Application.MENU_LAYER)));
-                appBar.setTitleText("Hinzufügen von Verspätung");
-
             }
         });
 
@@ -63,11 +72,9 @@ public class SecondaryPresenter {
         addButton.disableProperty().bind(
                 Bindings.createBooleanBinding(()
                         -> nameTextfield.getText().trim().isEmpty(), nameTextfield.textProperty()
-                ).or(
-                        Bindings.createBooleanBinding(()
-                                -> resonTextField.getText().trim().isEmpty(), resonTextField.textProperty()
-                        )
-                ));
+                ).or(Bindings.createBooleanBinding(()
+                        -> resonTextField.getText().trim().isEmpty(), resonTextField.textProperty()
+                )));
 
     }
 
@@ -82,7 +89,7 @@ public class SecondaryPresenter {
                     lastId,
                     today.format(formatter),
                     nameTextfield.getText(),
-                    Integer.parseInt(delaySelector.getSelectedItem().getText()),
+                    getMinutesFormDropdownButton(delaySelector.getSelectedItem()),
                     resonTextField.getText(),
                     yellowLetter.isSelected()
             );
@@ -100,5 +107,26 @@ public class SecondaryPresenter {
             alert.setContentText("Bitte geben Sie Name und Ursache an.");
             alert.showAndWait();
         }
+    }
+
+    /**
+     * parsing the MenuItems to int of minutes 
+     * 
+     * @param item the selected MenuItem form the DropdownButton
+     * @return int of Minutes
+     */
+    private int getMinutesFormDropdownButton(MenuItem item) {
+        Matcher matcher = pattern.matcher(item.getText());
+
+        if (!matcher.find()) {
+            return MAXMINUTES;
+        } else {
+            int tempInt = Integer.parseInt(matcher.group());
+            if (tempInt < 5) {
+                return tempInt * 60;
+            }
+            return tempInt;
+        }
+
     }
 }

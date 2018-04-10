@@ -2,13 +2,16 @@ package com.tolatemobile;
 
 import com.tolatemobile.views.PrimaryView;
 import com.tolatemobile.views.SecondaryView;
+
 import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.layout.layer.SidePopupView;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.gluonhq.charm.glisten.visual.Swatch;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -28,7 +31,7 @@ public class Application extends MobileApplication {
     public void init() {
         //bind style string to home button
         HOME_BUTTON.styleProperty().bind(HOME_BUTTON_STYLE);
-        
+
         addViewFactory(PRIMARY_VIEW, () -> (View) new PrimaryView().getView());
         addViewFactory(SECONDARY_VIEW, () -> (View) new SecondaryView().getView());
 
@@ -49,7 +52,6 @@ public class Application extends MobileApplication {
 //            splashView.setBottom(new Label("Test123"));
 //            return splashView;
 //        });
-        
         addLayerFactory(MENU_LAYER, () -> new SidePopupView(new DrawerManager().getDrawer()));
     }
 

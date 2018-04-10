@@ -1,7 +1,9 @@
 package com.tolatemobile.views;
 
+import com.gluonhq.charm.glisten.animation.BounceInRightTransition;
 import com.gluonhq.charm.glisten.application.MobileApplication;
 import com.gluonhq.charm.glisten.control.AppBar;
+import com.gluonhq.charm.glisten.layout.layer.FloatingActionButton;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 
@@ -26,23 +28,26 @@ public class PrimaryPresenter {
     private ListView<Delay> DelayListView;
 
     private RestProvider rest;
-    
+
     private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(PrimaryPresenter.class);
 
     public void initialize() {
         rest = new RestProvider();
 
+        primary.setShowTransitionFactory(BounceInRightTransition::new);
+        primary.getLayers().add(new FloatingActionButton(MaterialDesignIcon.ADD.text, e 
+                -> MobileApplication.getInstance().switchView(Application.SECONDARY_VIEW)).getLayer());
         primary.showingProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue) {
                 AppBar appBar = MobileApplication.getInstance().getAppBar();
+                appBar.setTitleText("Verspätungen");
                 appBar.setNavIcon(MaterialDesignIcon.MENU.button(e
                         -> MobileApplication.getInstance().showLayer(Application.MENU_LAYER)));
-                appBar.setTitleText("Verspätungen");
                 appBar.getActionItems().add(MaterialDesignIcon.ADD.button(e
                         -> MobileApplication.getInstance().switchView(Application.SECONDARY_VIEW)));
             }
         });
-        
+
         // create a JavaFX ListView and populate it with the retrieved list
         DelayListView.setCellFactory(lv -> {
             return new ListCell<Delay>() {
