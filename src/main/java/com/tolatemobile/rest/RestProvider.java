@@ -20,7 +20,7 @@ import com.tolatemobile.enitiy.Delay;
 public class RestProvider {
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    
+
     //private static final String BASE_URL = "http://localhost/tolate/api.php/tolate?transform=1";
     private static final String BASE_URL = "https://www.whatismy.name/rest/api.php/tolate/?transform=1";
 
@@ -42,17 +42,16 @@ public class RestProvider {
         //This JSON is expected {"tolate":[{"id":1,"date":"2017-02-15","name":"Jens","delaytime":15,"ursache":"testeintrag","entschuldigt":1}, .....
         System.out.println("AUSGABE: " + response);
         //cleanup the JSON so its an Array of Delay Entires
-        if(response.contains("tolate")){
+        if (response.contains("tolate")) {
             response.replaceFirst("\"tolate\":", response);
         }
+        System.out.println("after regex: " + response);
 
-        
-       
-      //get Array of items and than transform it to a list for better handling
-      Type listType = new TypeToken<ArrayList<Delay>>() {
-      }.getType();
-      List<Delay> list = gson.fromJson(response, listType);
-      
+        //get Array of items and than transform it to a list for better handling
+        Type listType = new TypeToken<ArrayList<Delay>>() {
+        }.getType();
+        List<Delay> list = gson.fromJson(response, listType);
+
 //      //transform Collection back to a List
 //      List list;
 //      if (coll instanceof List) {
@@ -60,7 +59,6 @@ public class RestProvider {
 //      }else{
 //          list = new ArrayList(coll);
 //      }
-        
         return list;
     }
 
