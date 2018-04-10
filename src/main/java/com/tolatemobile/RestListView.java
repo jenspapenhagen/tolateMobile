@@ -50,7 +50,7 @@ public class RestListView extends View {
         RestProvider rest = new RestProvider();
 
         // retrieve a list from the DataProvider
-        ObservableList<Delay> lateness = FXCollections.observableList(rest.getList());
+        ObservableList<Delay> lateness = FXCollections.observableList(rest.getDelayList());
         LOG.debug("size of ObservableList<Latenes> " + lateness.size());
 
         // create a JavaFX ListView and populate it with the retrieved list

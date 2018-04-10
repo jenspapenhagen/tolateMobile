@@ -8,6 +8,7 @@ import com.gluonhq.charm.glisten.layout.layer.SidePopupView;
 import com.gluonhq.charm.glisten.mvc.View;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
 import com.gluonhq.charm.glisten.visual.Swatch;
+import com.tolatemobile.views.CoverplanView;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -21,6 +22,7 @@ public class Application extends MobileApplication {
 
     public static final String PRIMARY_VIEW = HOME_VIEW;
     public static final String SECONDARY_VIEW = "Verspätung hinzufügen";
+    public static final String COVERPLAN_VIEW = "Verttretungsplan";
     public static final String MENU_LAYER = "Menu";
 
     private static final StringProperty HOME_BUTTON_STYLE = new SimpleStringProperty("-fx-text-fill: white;");
@@ -34,6 +36,7 @@ public class Application extends MobileApplication {
 
         addViewFactory(PRIMARY_VIEW, () -> (View) new PrimaryView().getView());
         addViewFactory(SECONDARY_VIEW, () -> (View) new SecondaryView().getView());
+        addViewFactory(COVERPLAN_VIEW, () -> (View) new CoverplanView().getView());
 
         //        addViewFactory(MobileApplication.SPLASH_VIEW, () -> {
 //

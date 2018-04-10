@@ -176,7 +176,7 @@ public class SecondaryPresenter {
     private void add(ActionEvent event) {
         if (!nameTextfield.getText().isEmpty() && !resonTextField.getText().isEmpty()) {
             delayItem = new Delay(
-                    (rest.lastId() + 1),
+                    (rest.lastDelayId() + 1),
                     today.format(formatter),
                     nameTextfield.getText(),
                     getMinutesFormDropdownButton(delaySelector.getSelectedItem()),

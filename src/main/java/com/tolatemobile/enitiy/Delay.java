@@ -7,40 +7,34 @@ package com.tolatemobile.enitiy;
 
 import com.google.gson.annotations.JsonAdapter;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 /**
- * the intern object
+ * the Delay
+ *
  * @author jens.papenhagen
  */
 @AllArgsConstructor
+@Getter
 public class Delay {
 
-    @Getter
     private int id;
 
     @Setter
-    @Getter
     private String date;
 
     @Setter
-    @Getter
     private String name;
 
     @Setter
-    @Getter
     private int delaytime;
 
     @Setter
-    @Getter
     private String ursache;
 
     @Setter
-    @Getter
     @JsonAdapter(BooleanTypeAdapter.class)
     private boolean entschuldigt;
-   
 
     public String toJSON() {
         String output = "{\"id\": " + id

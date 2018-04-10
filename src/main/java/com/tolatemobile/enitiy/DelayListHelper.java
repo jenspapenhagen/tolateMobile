@@ -8,12 +8,8 @@ package com.tolatemobile.enitiy;
 import java.util.List;
 
 import lombok.*;
-/**
- *
- * @author jay
- */
 
-public class JsonListHelper{
+public class DelayListHelper{
     @Getter
     @Setter
     private List<Delay> tolate;

@@ -1,7 +1,13 @@
 package com.tolatemobile.rest;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import java.io.IOException;
 
 import okhttp3.MediaType;
@@ -12,14 +18,12 @@ import okhttp3.Response;
 
 import com.google.gson.Gson;
 
-import com.tolatemobile.enitiy.Delay;
-import com.tolatemobile.enitiy.JsonListHelper;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.slf4j.LoggerFactory;
+
+import com.tolatemobile.enitiy.CoverPlan;
+import com.tolatemobile.enitiy.CoverPlanListHelper;
+import com.tolatemobile.enitiy.Delay;
+import com.tolatemobile.enitiy.DelayListHelper;
 
 public class RestProvider {
 
@@ -34,11 +38,35 @@ public class RestProvider {
     //private static final String BASE_URL = "http://localhost/tolate/api.php/tolate?transform=1";
     private static final String BASE_URL = "https://www.whatismy.name/rest/api.php/tolate";
 
+    private static final String COVERPLAN_URL = "https://www.whatismy.name/vertretungsplan.php?callback=?";
+
     private OkHttpClient client = new OkHttpClient();
 
     private Gson gson = new Gson();
 
-    public List<Delay> getList() {
+    public List<CoverPlan> getCoverPlan() {
+        String response = "";
+
+        try {
+            response = run(COVERPLAN_URL);
+            LOG.debug(COVERPLAN_URL);
+            if (response.isEmpty()) {
+                LOG.error("empty LIST check URL" + BASE_URL);
+                return new ArrayList<>();
+            }
+
+        } catch (IOException ex) {
+            LOG.error(ex.getMessage());
+        }
+        //This JSON is expected {"item":[{"title":"Vertretungs-Text: zus\u00e4tzliche Teilung","link":"http:\/\/blank.com","description":"Die Klasse ","guid":"b11b65c3-0408-42b0-b6b5-0b7cc92d5f73"},, .....
+        LOG.debug("AUSGABE: " + response);
+        CoverPlanListHelper warpper = gson.fromJson(response, CoverPlanListHelper.class);
+        List<CoverPlan> list = warpper.getItem();
+
+        return list;
+    }
+
+    public List<Delay> getDelayList() {
         String response = "";
         String filter = "?transform=1&filter=date,eq,"; //&filter=date,eq,2017-02-15
 
@@ -58,7 +86,7 @@ public class RestProvider {
 
         //This JSON is expected {"tolate":[{"id":1,"date":"2017-02-15","name":"Jens","delaytime":15,"ursache":"testeintrag","entschuldigt":1}, .....
         LOG.debug("AUSGABE: " + response);
-        JsonListHelper warpper = gson.fromJson(response, JsonListHelper.class);
+        DelayListHelper warpper = gson.fromJson(response, DelayListHelper.class);
         List<Delay> list = warpper.getTolate();
 
         return list;
@@ -78,11 +106,11 @@ public class RestProvider {
     }
 
     /**
-     * get the Last ID of items form the REST
+     * get the Last Delay ID of items form the REST
      *
      * @return the last id or 1
      */
-    public int lastId() {
+    public int lastDelayId() {
         String response = "";
         String filter = "?transform=1&order=id,desc&columns=id&page=1,1";
         try {

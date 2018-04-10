@@ -10,6 +10,7 @@ import com.gluonhq.charm.glisten.control.NavigationDrawer;
 import com.gluonhq.charm.glisten.control.NavigationDrawer.Item;
 import com.gluonhq.charm.glisten.control.NavigationDrawer.ViewItem;
 import com.gluonhq.charm.glisten.visual.MaterialDesignIcon;
+import static com.tolatemobile.Application.COVERPLAN_VIEW;
 import static com.tolatemobile.Application.MENU_LAYER;
 import static com.tolatemobile.Application.PRIMARY_VIEW;
 import static com.tolatemobile.Application.SECONDARY_VIEW;
@@ -22,16 +23,18 @@ public class DrawerManager {
 
     public DrawerManager() {
         this.drawer = new NavigationDrawer();
-        
+
         NavigationDrawer.Header header = new NavigationDrawer.Header("tolateMobile",
-                "Multi View Project",
+                "ITech School Helper",
                 new Avatar(21, new Image(DrawerManager.class.getResourceAsStream("/icon.png"))));
         drawer.setHeader(header);
-        
+
         final Item primaryItem = new ViewItem("Liste der Verspätungen", MaterialDesignIcon.HOME.graphic(), PRIMARY_VIEW, ViewStackPolicy.SKIP);
         final Item secondaryItem = new ViewItem("Verspätung hinzufügen", MaterialDesignIcon.DASHBOARD.graphic(), SECONDARY_VIEW);
-        drawer.getItems().addAll(primaryItem, secondaryItem);
+        final Item coverplanItem = new ViewItem("Vertretungsplan ", MaterialDesignIcon.ALARM.graphic(), COVERPLAN_VIEW);
         
+        drawer.getItems().addAll(primaryItem, secondaryItem, coverplanItem);
+
         if (Platform.isDesktop()) {
             final Item quitItem = new Item("Quit", MaterialDesignIcon.EXIT_TO_APP.graphic());
             quitItem.selectedProperty().addListener((obs, ov, nv) -> {
@@ -41,14 +44,14 @@ public class DrawerManager {
             });
             drawer.getItems().add(quitItem);
         }
-        
-        drawer.addEventHandler(NavigationDrawer.ITEM_SELECTED, 
+
+        drawer.addEventHandler(NavigationDrawer.ITEM_SELECTED,
                 e -> MobileApplication.getInstance().hideLayer(MENU_LAYER));
-        
+
         MobileApplication.getInstance().viewProperty().addListener((obs, oldView, newView) -> updateItem(newView.getName()));
         updateItem(PRIMARY_VIEW);
     }
-    
+
     private void updateItem(String nameView) {
         for (Node item : drawer.getItems()) {
             if (item instanceof ViewItem && ((ViewItem) item).getViewName().equals(nameView)) {
@@ -57,7 +60,7 @@ public class DrawerManager {
             }
         }
     }
-    
+
     public NavigationDrawer getDrawer() {
         return drawer;
     }
