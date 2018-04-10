@@ -76,6 +76,7 @@ public class SecondaryPresenter {
         if (!nameTextfield.getText().isEmpty() && !resonTextField.getText().isEmpty()) {
             int lastId = rest.lastId();
 
+            //parsing the delaytime form "in 5min" to 
             //Delay(int id, String date, String name, int delaytime, String ursache, boolean entschuldigt) 
             delayItem = new Delay(
                     lastId,

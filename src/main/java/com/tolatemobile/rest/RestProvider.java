@@ -1,7 +1,6 @@
 package com.tolatemobile.rest;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.io.IOException;
 
@@ -17,6 +16,8 @@ import com.tolatemobile.enitiy.Delay;
 import com.tolatemobile.enitiy.JsonListHelper;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RestProvider {
 
@@ -36,7 +37,7 @@ public class RestProvider {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
         String today = formatter.format(LocalDate.now());
         System.out.println("the URL: " + BASE_URL + filter + today);
-        
+
         try {
             response = run(BASE_URL + filter + today);
 
@@ -82,16 +83,21 @@ public class RestProvider {
         }
 
         //This JSON is expected {"tolate":[{"id":2}],"_results":2}
-        //remove all none Numbers
-        response.replaceAll("[^-?0-9]+", " ");
-        List<String> asList = Arrays.asList(response.trim().split(" "));
+        Pattern pattern = Pattern.compile("-?\\d+");
+        Matcher matcher = pattern.matcher(response);
         
-        //Caused by: java.lang.NumberFormatException: For input string: "{"tolate":[{"id":3}],"_results":3}"
-//	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
-//	at java.lang.Integer.parseInt(Integer.java:580)
-//	at java.lang.Integer.parseInt(Integer.java:615)
+        List<Integer> tempList = new ArrayList<>();
+        while(matcher.find()){
+            tempList.add(Integer.parseInt(matcher.group()));
+        }
+        
+        if(tempList.isEmpty()){
+            System.out.println("ERROR list is empty");
+        }
+        
+        tempList.forEach(System.out::println);
 
-        return Integer.parseInt(asList.get(0));
+        return tempList.get(1);
     }
 
     private String run(String url) throws IOException {
