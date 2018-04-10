@@ -39,6 +39,7 @@ public class PrimaryPresenter {
 //                        -> System.out.println("Search")));
             }
         });
+        
         // create a JavaFX ListView and populate it with the retrieved list
         DelayListView.setCellFactory(lv -> {
             return new ListCell<Delay>() {
@@ -53,11 +54,11 @@ public class PrimaryPresenter {
                 }
             };
         });
+        //build up the List
         ObservableList<Delay> lateness = FXCollections.observableList(rest.getList());
         System.out.println("size of ObservableList<Latenes> " + lateness.size());
 
         DelayListView.setItems(lateness);
-
     }
 
 }

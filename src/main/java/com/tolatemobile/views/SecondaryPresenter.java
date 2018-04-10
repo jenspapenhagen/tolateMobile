@@ -54,9 +54,8 @@ public class SecondaryPresenter {
                 AppBar appBar = MobileApplication.getInstance().getAppBar();
                 appBar.setNavIcon(MaterialDesignIcon.MENU.button(e
                         -> MobileApplication.getInstance().showLayer(Application.MENU_LAYER)));
-                appBar.setTitleText("Add Delay");
-//                appBar.getActionItems().add(MaterialDesignIcon.FAVORITE.button(e
-//                        -> System.out.println("Favorite")));
+                appBar.setTitleText("Hinzufügen von Verspätung");
+
             }
         });
 
@@ -95,9 +94,9 @@ public class SecondaryPresenter {
             MobileApplication.getInstance().switchToPreviousView();
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Missing Information");
+            alert.setTitle("Name und Ursache nicht genannt");
             alert.setHeaderText(null);
-            alert.setContentText("Both a title and description are required for this example.");
+            alert.setContentText("Bitte geben Sie Name und Ursache an.");
             alert.showAndWait();
         }
     }

@@ -3,7 +3,6 @@ package com.tolatemobile.rest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.lang.reflect.Type;
 import java.io.IOException;
 
 import okhttp3.MediaType;
@@ -13,7 +12,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import com.tolatemobile.enitiy.Delay;
 import com.tolatemobile.enitiy.JsonListHelper;
@@ -41,29 +39,11 @@ public class RestProvider {
         }
 
         //This JSON is expected {"tolate":[{"id":1,"date":"2017-02-15","name":"Jens","delaytime":15,"ursache":"testeintrag","entschuldigt":1}, .....
-        System.out.println("AUSGABE: " + response);
-//        //cleanup the JSON so its an Array of Delay Entires
-//        if (response.contains("tolate")) {
-//            String replaceFirst = response.replaceFirst("tolate", response);
-//            System.out.println("after regex: " + replaceFirst.replaceFirst("\"\":", replaceFirst));
-//        }
-        
-
-        //get Array of items and than transform it to a list for better handling
-//        Type listType = new TypeToken<ArrayList<Delay>>() {
-//        }.getType();
-//        List<Delay> list = gson.fromJson(response, listType);
+       // System.out.println("AUSGABE: " + response);
         
         JsonListHelper warpper = gson.fromJson(response, JsonListHelper.class);
         List<Delay> list = warpper.getTolate();
 
-//      //transform Collection back to a List
-//      List list;
-//      if (coll instanceof List) {
-//          list = (List) coll;
-//      }else{
-//          list = new ArrayList(coll);
-//      }
         return list;
     }
 
