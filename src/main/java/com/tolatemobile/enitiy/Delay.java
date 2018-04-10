@@ -5,6 +5,7 @@
  */
 package com.tolatemobile.enitiy;
 
+import com.google.gson.annotations.JsonAdapter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +38,7 @@ public class Delay {
 
     @Setter
     @Getter
+    @JsonAdapter(BooleanTypeAdapter.class)
     private boolean entschuldigt;
    
 

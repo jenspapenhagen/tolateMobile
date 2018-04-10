@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import com.tolatemobile.enitiy.Delay;
+import com.tolatemobile.enitiy.JsonListHelper;
 
 public class RestProvider {
 
@@ -41,16 +42,20 @@ public class RestProvider {
 
         //This JSON is expected {"tolate":[{"id":1,"date":"2017-02-15","name":"Jens","delaytime":15,"ursache":"testeintrag","entschuldigt":1}, .....
         System.out.println("AUSGABE: " + response);
-        //cleanup the JSON so its an Array of Delay Entires
-        if (response.contains("tolate")) {
-            response.replaceFirst("\"tolate\":", response);
-        }
-        System.out.println("after regex: " + response);
+//        //cleanup the JSON so its an Array of Delay Entires
+//        if (response.contains("tolate")) {
+//            String replaceFirst = response.replaceFirst("tolate", response);
+//            System.out.println("after regex: " + replaceFirst.replaceFirst("\"\":", replaceFirst));
+//        }
+        
 
         //get Array of items and than transform it to a list for better handling
-        Type listType = new TypeToken<ArrayList<Delay>>() {
-        }.getType();
-        List<Delay> list = gson.fromJson(response, listType);
+//        Type listType = new TypeToken<ArrayList<Delay>>() {
+//        }.getType();
+//        List<Delay> list = gson.fromJson(response, listType);
+        
+        JsonListHelper warpper = gson.fromJson(response, JsonListHelper.class);
+        List<Delay> list = warpper.getTolate();
 
 //      //transform Collection back to a List
 //      List list;
