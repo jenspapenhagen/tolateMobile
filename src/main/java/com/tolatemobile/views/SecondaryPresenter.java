@@ -81,25 +81,21 @@ public class SecondaryPresenter {
     @FXML
     private void add(ActionEvent event) {
         if (!nameTextfield.getText().isEmpty() && !resonTextField.getText().isEmpty()) {
-            int lastId = rest.lastId();
-
-            //parsing the delaytime form "in 5min" to 
-            //Delay(int id, String date, String name, int delaytime, String ursache, boolean entschuldigt) 
             delayItem = new Delay(
-                    lastId,
+                    (rest.lastId() + 1),
                     today.format(formatter),
                     nameTextfield.getText(),
                     getMinutesFormDropdownButton(delaySelector.getSelectedItem()),
                     resonTextField.getText(),
-                    yellowLetter.isSelected()
-            );
+                    yellowLetter.isSelected());
 
             rest.addDelay(delayItem);
 
             nameTextfield.setText("");
             resonTextField.setText("");
 
-            MobileApplication.getInstance().switchToPreviousView();
+            //switch back to homeview
+            MobileApplication.getInstance().switchView(Application.HOME_VIEW);
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Name und Ursache nicht genannt");
@@ -110,8 +106,8 @@ public class SecondaryPresenter {
     }
 
     /**
-     * parsing the MenuItems to int of minutes 
-     * 
+     * parsing the MenuItems to int of minutes
+     *
      * @param item the selected MenuItem form the DropdownButton
      * @return int of Minutes
      */

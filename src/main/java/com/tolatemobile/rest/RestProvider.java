@@ -32,7 +32,7 @@ public class RestProvider {
     private final Pattern pattern = Pattern.compile("-?\\d+");
 
     //private static final String BASE_URL = "http://localhost/tolate/api.php/tolate?transform=1";
-    private static final String BASE_URL = "https://www.whatismy.name/rest/api.php/tolate/?transform=1";
+    private static final String BASE_URL = "https://www.whatismy.name/rest/api.php/tolate";
 
     private OkHttpClient client = new OkHttpClient();
 
@@ -40,7 +40,7 @@ public class RestProvider {
 
     public List<Delay> getList() {
         String response = "";
-        String filter = "&filter=date,eq,"; //&filter=date,eq,2017-02-15
+        String filter = "?transform=1&filter=date,eq,"; //&filter=date,eq,2017-02-15
 
         String today = formatter.format(LocalDate.now());
 
@@ -67,6 +67,7 @@ public class RestProvider {
     public boolean addDelay(Delay delay) {
         String json = delay.toJSON();
         String response = "";
+        LOG.debug(json);
         try {
             response = post(BASE_URL, json);
         } catch (IOException ex) {
@@ -83,7 +84,7 @@ public class RestProvider {
      */
     public int lastId() {
         String response = "";
-        String filter = "&order=id,desc&columns=id&page=1,1";
+        String filter = "?transform=1&order=id,desc&columns=id&page=1,1";
         try {
             response = run(BASE_URL + filter);
             LOG.debug(BASE_URL + filter);
