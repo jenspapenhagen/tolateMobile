@@ -24,6 +24,8 @@ dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.10.0'
     compile 'com.google.code.gson:gson:2.8.2'
     
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    
     compileOnly 'org.projectlombok:lombok:1.16.18'
 }
 

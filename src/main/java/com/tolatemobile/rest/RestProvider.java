@@ -19,7 +19,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.LoggerFactory;
+
 public class RestProvider {
+
+    private final static org.slf4j.Logger LOG = LoggerFactory.getLogger(RestProvider.class);
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
@@ -40,16 +44,18 @@ public class RestProvider {
 
         try {
             response = run(BASE_URL + filter + today);
+            LOG.debug(BASE_URL + filter + today);
 
             if (response.isEmpty()) {
+                LOG.error("empty LIST check URL" + BASE_URL);
                 return new ArrayList<>();
             }
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            LOG.error(ex.getMessage());
         }
 
         //This JSON is expected {"tolate":[{"id":1,"date":"2017-02-15","name":"Jens","delaytime":15,"ursache":"testeintrag","entschuldigt":1}, .....
-        // System.out.println("AUSGABE: " + response);
+        LOG.debug("AUSGABE: " + response);
         JsonListHelper warpper = gson.fromJson(response, JsonListHelper.class);
         List<Delay> list = warpper.getTolate();
 
@@ -62,7 +68,7 @@ public class RestProvider {
         try {
             response = post(BASE_URL, json);
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            LOG.error(ex.getMessage());
         }
 
         return !response.isEmpty();
@@ -73,29 +79,29 @@ public class RestProvider {
         String filter = "&order=id,desc&columns=id&page=1,1";
         try {
             response = run(BASE_URL + filter);
-            System.out.println(response);
+            LOG.debug(BASE_URL + filter);
+            LOG.debug(response);
             if (response.isEmpty()) {
+                LOG.error("LastID do not get a Response form the Server");
                 //there is no feedback form the API give back 1
                 return 1;
             }
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            LOG.error(ex.getMessage());
         }
 
         //This JSON is expected {"tolate":[{"id":2}],"_results":2}
         Pattern pattern = Pattern.compile("-?\\d+");
         Matcher matcher = pattern.matcher(response);
-        
+
         List<Integer> tempList = new ArrayList<>();
-        while(matcher.find()){
+        while (matcher.find()) {
             tempList.add(Integer.parseInt(matcher.group()));
         }
-        
-        if(tempList.isEmpty()){
-            System.out.println("ERROR list is empty");
+
+        if (tempList.isEmpty()) {
+            LOG.error("ERROR list is empty");
         }
-        
-        tempList.forEach(System.out::println);
 
         return tempList.get(1);
     }
@@ -109,8 +115,7 @@ public class RestProvider {
         try (Response response = client.newCall(request).execute()) {
             output = response.body().string();
         } catch (Exception ex) {
-            //output the Exception
-            output = ex.getMessage();
+            LOG.error(ex.getMessage());
         }
         return output;
     }
@@ -126,8 +131,7 @@ public class RestProvider {
         try (Response response = client.newCall(request).execute()) {
             output = response.body().string();
         } catch (Exception ex) {
-            //output the Exception
-            output = ex.getMessage();
+            LOG.error(ex.getMessage());
         }
         return output;
     }
