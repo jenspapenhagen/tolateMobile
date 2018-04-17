@@ -21,6 +21,12 @@ repositories {
 
 mainClassName = 'com.tolatemobile.Application'
 
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
 dependencies {
     compile 'com.gluonhq:charm:4.4.1'
     compile 'com.airhacks:afterburner.mfx:1.6.3'
@@ -46,12 +52,15 @@ jfxmobile {
         plugins 'display', 'lifecycle', 'statusbar', 'storage'
     }
     android {
-        compileSdkVersion = '21'
         manifest = 'src/android/AndroidManifest.xml'
         androidSdk = 'C:/Users/jay/AppData/Local/Android/android-sdk'
         dexOptions {
             javaMaxHeapSize = '4g'
         }
+        compileSdkVersion = 22
+        minSdkVersion = 19
+        targetSdkVersion = 22
+
         packagingOptions {
             exclude 'META-INF/LICENSE.txt'
             exclude 'META-INF/NOTICE.txt'
